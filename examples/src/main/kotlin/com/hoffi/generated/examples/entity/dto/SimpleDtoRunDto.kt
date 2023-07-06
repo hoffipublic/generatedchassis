@@ -1,3 +1,8 @@
 package com.hoffi.generated.examples.entity.dto
 
-public interface SimpleDtoRunDto
+import com.hoffi.generated.universe.WasGenerated
+
+/**
+ * generated at DEVTIME on macbook-pro.fritz.box
+ */
+public interface SimpleDtoRunDto : WasGenerated

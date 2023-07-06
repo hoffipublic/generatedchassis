@@ -3,11 +3,16 @@ package com.hoffi.generated.examples.dto.persistent.dto
 import com.hoffi.generated.universe.Defaults.DEFAULT_LOCALDATETIME
 import com.hoffi.generated.universe.Defaults.DEFAULT_STRING
 import com.hoffi.generated.universe.Defaults.DEFAULT_UUID
+import com.hoffi.generated.universe.WasGenerated
 import java.util.UUID
 import kotlin.String
 import kotlinx.datetime.LocalDateTime
 
-public abstract class PersistentBasePersistentDtoRunDto() : BasePersistentDtoRunDto() {
+/**
+ * generated at DEVTIME on macbook-pro.fritz.box
+ */
+public abstract class PersistentBasePersistentDtoRunDto() : BasePersistentDtoRunDto(), WasGenerated
+    {
   public var uuid: UUID = DEFAULT_UUID
 
   public var createdAt: LocalDateTime = DEFAULT_LOCALDATETIME
