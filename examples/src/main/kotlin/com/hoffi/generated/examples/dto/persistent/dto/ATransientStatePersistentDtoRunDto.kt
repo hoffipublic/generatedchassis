@@ -4,9 +4,11 @@ import com.hoffi.generated.universe.WasGenerated
 import kotlin.Boolean
 
 /**
+ * dto model: TransientState
+ * with dslRef: disc:commonBasePersistentDisc|modelgroup:Persistentgroup|model:TransientState|dto
  * generated at DEVTIME on macbook-pro.fritz.box
  */
-public abstract class TransientStatePersistentDtoRunDto() : PersistentBasePersistentDtoRunDto(),
+public abstract class ATransientStatePersistentDtoRunDto() : APersistentBasePersistentDtoRunDto(),
     WasGenerated {
   public var created: Boolean = false
 

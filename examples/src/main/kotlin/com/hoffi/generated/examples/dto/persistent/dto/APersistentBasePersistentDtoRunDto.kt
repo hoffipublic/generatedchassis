@@ -9,10 +9,12 @@ import kotlin.String
 import kotlinx.datetime.LocalDateTime
 
 /**
+ * dto model: Persistent
+ * with dslRef: disc:commonBasePersistentDisc|modelgroup:Persistentgroup|model:Persistent|dto
  * generated at DEVTIME on macbook-pro.fritz.box
  */
-public abstract class PersistentBasePersistentDtoRunDto() : BasePersistentDtoRunDto(), WasGenerated
-    {
+public abstract class APersistentBasePersistentDtoRunDto() : ABasePersistentDtoRunDto(),
+    WasGenerated {
   public var uuid: UUID = DEFAULT_UUID
 
   public var createdAt: LocalDateTime = DEFAULT_LOCALDATETIME
