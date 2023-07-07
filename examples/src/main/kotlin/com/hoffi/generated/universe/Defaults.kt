@@ -10,6 +10,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 /**
+ * Universe Defaults
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 public object Defaults : WasGenerated {
