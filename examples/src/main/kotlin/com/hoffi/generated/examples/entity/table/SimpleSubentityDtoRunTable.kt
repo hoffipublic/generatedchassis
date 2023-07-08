@@ -2,10 +2,6 @@ package com.hoffi.generated.examples.entity.table
 
 import com.hoffi.generated.examples.entity.dto.SimpleEntityDtoRunDto
 import com.hoffi.generated.examples.entity.dto.SimpleSubentityDtoRunDto
-import com.hoffi.generated.universe.Defaults.DEFAULT_INSTANT
-import com.hoffi.generated.universe.Defaults.DEFAULT_INT
-import com.hoffi.generated.universe.Defaults.DEFAULT_LOCALDATETIME
-import com.hoffi.generated.universe.Defaults.DEFAULT_STRING
 import com.hoffi.generated.universe.TABLE
 import com.hoffi.generated.universe.UuidTable
 import com.hoffi.generated.universe.WasGenerated
@@ -13,6 +9,10 @@ import kotlin.Int
 import kotlin.String
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.kotlin.datetime.datetime
+import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
+import java.util.UUID
 
 /**
  * table model: Subentity
@@ -21,25 +21,26 @@ import kotlinx.datetime.LocalDateTime
  */
 @TABLE(SimpleSubentityDtoRunDto::class)
 public object SimpleSubentityDtoRunTable : UuidTable("subentity"), WasGenerated {
-  public var name: String = DEFAULT_STRING
+  public var name: Column<String> = varchar("name", 512)
 
-  public var `value`: String = DEFAULT_STRING
+  public var `value`: Column<String> = varchar("value", 4_096)
 
-  public var prio: Int = DEFAULT_INT
+  public var prio: Column<Int> = integer("prio")
 
-  public var aInstant: Instant = DEFAULT_INSTANT
+  public var aInstant: Column<Instant> = timestamp("a_instant")
 
-  public var aLocalDateTime: LocalDateTime = DEFAULT_LOCALDATETIME
+  public var aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
 
-  public var subEntityDtoSpecificProp: String = DEFAULT_STRING
+  public var subEntityDtoSpecificProp: Column<String> = varchar("sub_entity_dto_specific_prop", 512)
 
-  public var entityBackreference: SimpleEntityDtoRunDto = SimpleEntityDtoRunDto.NULL
+  public var entityBackreference: Column<UUID> =
+      uuid("entity_backreference").uniqueIndex().references(SimpleEntityDtoRunTable.uuid)
 
-  public var createdAt: LocalDateTime = DEFAULT_LOCALDATETIME
+  public var createdAt: Column<LocalDateTime> = datetime("created_at")
 
-  public var updatedAt: LocalDateTime = DEFAULT_LOCALDATETIME
+  public var updatedAt: Column<LocalDateTime> = datetime("updated_at")
 
-  public var createUser: String = DEFAULT_STRING
+  public var createUser: Column<String> = varchar("create_user", 512)
 
-  public var updateUser: String = DEFAULT_STRING
+  public var updateUser: Column<String> = varchar("update_user", 512)
 }

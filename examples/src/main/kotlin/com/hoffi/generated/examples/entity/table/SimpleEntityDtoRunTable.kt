@@ -3,11 +3,6 @@ package com.hoffi.generated.examples.entity.table
 import com.hoffi.generated.examples.entity.dto.ISimpleDtoRunDto
 import com.hoffi.generated.examples.entity.dto.SimpleEntityDtoRunDto
 import com.hoffi.generated.examples.entity.dto.SimpleSubentityDtoRunDto
-import com.hoffi.generated.universe.Defaults.DEFAULT_INSTANT
-import com.hoffi.generated.universe.Defaults.DEFAULT_INT
-import com.hoffi.generated.universe.Defaults.DEFAULT_LOCALDATETIME
-import com.hoffi.generated.universe.Defaults.DEFAULT_LONG
-import com.hoffi.generated.universe.Defaults.DEFAULT_STRING
 import com.hoffi.generated.universe.Dummy
 import com.hoffi.generated.universe.TABLE
 import com.hoffi.generated.universe.UuidTable
@@ -20,6 +15,10 @@ import kotlin.collections.List
 import kotlin.collections.MutableSet
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
+import org.jetbrains.exposed.sql.Column
+import org.jetbrains.exposed.sql.kotlin.datetime.datetime
+import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
+import java.util.*
 
 /**
  * table model: Entity
@@ -28,39 +27,41 @@ import kotlinx.datetime.LocalDateTime
  */
 @TABLE(SimpleEntityDtoRunDto::class)
 public object SimpleEntityDtoRunTable : UuidTable("entity"), WasGenerated, ISimpleDtoRunDto {
-  public var name: String = DEFAULT_STRING
+  public var name: Column<String> = varchar("name", 512)
 
-  public var `value`: String = DEFAULT_STRING
+  public var `value`: Column<String> = varchar("value", 4_096)
 
-  public var prio: Int = DEFAULT_INT
+  public var prio: Column<Int> = integer("prio")/* some dto prio comment */
 
-  public var aInstant: Instant = DEFAULT_INSTANT
+  public var aInstant: Column<Instant> = timestamp("a_instant")
 
-  public var aLocalDateTime: LocalDateTime = DEFAULT_LOCALDATETIME
+  public var aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
 
   public var someObject: Dummy = Dummy.NULL
 
-  public var someModelObject: SimpleSubentityDtoRunDto = SimpleSubentityDtoRunDto.NULL
+  public var someModelObject: Column<UUID> =
+      uuid("some_model_object").uniqueIndex().references(SimpleSubentityDtoRunTable.uuid)
 
   public val subentitys: MutableSet<SimpleSubentityDtoRunDto>? = mutableSetOf()
 
   public val listOfStrings: List<String> = listOf()
 
-  public var dtoSpecificProp: String = DEFAULT_STRING
+  public var dtoSpecificProp: Column<String> = varchar("dto_specific_prop", 512)/* some dto specific
+      comment */
 
-  public var optimisticLockId: Long = DEFAULT_LONG
+  public var optimisticLockId: Column<Long> = long("optimistic_lock_id")
 
-  public var created: Boolean = false
+  public var created: Column<Boolean> = bool("created")
 
-  public var modified: Boolean = false
+  public var modified: Column<Boolean> = bool("modified")
 
-  public var deleted: Boolean = false
+  public var deleted: Column<Boolean> = bool("deleted")
 
-  public var createdAt: LocalDateTime = DEFAULT_LOCALDATETIME
+  public var createdAt: Column<LocalDateTime> = datetime("created_at")
 
-  public var updatedAt: LocalDateTime = DEFAULT_LOCALDATETIME
+  public var updatedAt: Column<LocalDateTime> = datetime("updated_at")
 
-  public var createUser: String = DEFAULT_STRING
+  public var createUser: Column<String> = varchar("create_user", 512)
 
-  public var updateUser: String = DEFAULT_STRING
+  public var updateUser: Column<String> = varchar("update_user", 512)
 }

@@ -27,9 +27,9 @@ public class SimpleEntityDtoRunDto(
   public var `value`: String = DEFAULT_STRING,
   public val subentitys: MutableSet<SimpleSubentityDtoRunDto>? = mutableSetOf(),
   public val listOfStrings: List<String>,
-  public var dtoSpecificProp: String,
+  public var dtoSpecificProp: String = DEFAULT_STRING/* some dto specific comment */,
 ) : APersistentOptimisticPersistentDtoRunDto(), WasGenerated, ISimpleDtoRunDto {
-  public var prio: Int = DEFAULT_INT
+  public var prio: Int = DEFAULT_INT/* some dto prio comment */
 
   public var aInstant: Instant = DEFAULT_INSTANT
 

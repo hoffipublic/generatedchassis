@@ -12,6 +12,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:$versionKotlinxDatetime")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$versionKotlinxSerializationJson")
     implementation("org.jetbrains.exposed:exposed-core:${versionExposed}")
+    implementation("org.jetbrains.exposed:exposed-kotlin-datetime:${versionExposed}")
 }
 
 repositories {
