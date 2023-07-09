@@ -6,6 +6,8 @@ import com.hoffi.generated.universe.DTOsTABLE
 import com.hoffi.generated.universe.Defaults.DEFAULT_INSTANT
 import com.hoffi.generated.universe.Defaults.DEFAULT_INT
 import com.hoffi.generated.universe.Defaults.DEFAULT_LOCALDATETIME
+import com.hoffi.generated.universe.Defaults.DEFAULT_STRING
+import com.hoffi.generated.universe.IUuidDto
 import com.hoffi.generated.universe.WasGenerated
 import kotlin.Int
 import kotlin.String
@@ -25,7 +27,7 @@ public class SimpleSubentityDtoRunDto(
   public var name: String,
   public var `value`: String,
   public var subEntityDtoSpecificProp: String,
-) : APersistentBasePersistentDtoRunDto(), WasGenerated {
+) : APersistentBasePersistentDtoRunDto(), WasGenerated, IUuidDto {
   public var prio: Int = DEFAULT_INT
 
   public var aInstant: Instant = DEFAULT_INSTANT

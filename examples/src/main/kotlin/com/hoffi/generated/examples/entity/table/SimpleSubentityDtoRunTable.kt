@@ -23,26 +23,26 @@ import java.util.*
   targetDto = SimpleSubentityDtoRunDto::class,
 )
 public object SimpleSubentityDtoRunTable : UuidTable("subentity"), WasGenerated {
-  public var name: Column<String> = varchar("name", 512)
+  public val name: Column<String> = varchar("name", 512)
 
-  public var `value`: Column<String> = varchar("value", 4_096)
+  public val `value`: Column<String> = varchar("value", 4_096)
 
-  public var prio: Column<Int> = integer("prio")
+  public val prio: Column<Int> = integer("prio")
 
-  public var aInstant: Column<Instant> = timestamp("a_instant")
+  public val aInstant: Column<Instant> = timestamp("a_instant")
 
-  public var aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
+  public val aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
 
-  public var subEntityDtoSpecificProp: Column<String> = varchar("sub_entity_dto_specific_prop", 512)
+  public val subEntityDtoSpecificProp: Column<String> = varchar("sub_entity_dto_specific_prop", 512)
 
   public var entityBackreference: Column<UUID> =
-      uuid("entity_backreference").uniqueIndex().references(SimpleEntityDtoRunTable.uuid)
+    uuid("entity_backreference").uniqueIndex().references(SimpleEntityDtoRunTable.uuid)
 
-  public var createdAt: Column<LocalDateTime> = datetime("created_at")
+  public val createdAt: Column<LocalDateTime> = datetime("created_at")
 
-  public var updatedAt: Column<LocalDateTime> = datetime("updated_at")
+  public val updatedAt: Column<LocalDateTime> = datetime("updated_at")
 
-  public var createUser: Column<String> = varchar("create_user", 512)
+  public val createUser: Column<String> = varchar("create_user", 512)
 
-  public var updateUser: Column<String> = varchar("update_user", 512)
+  public val updateUser: Column<String> = varchar("update_user", 512)
 }

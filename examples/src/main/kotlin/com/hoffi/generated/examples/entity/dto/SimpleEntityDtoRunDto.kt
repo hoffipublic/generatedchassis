@@ -8,6 +8,7 @@ import com.hoffi.generated.universe.Defaults.DEFAULT_INT
 import com.hoffi.generated.universe.Defaults.DEFAULT_LOCALDATETIME
 import com.hoffi.generated.universe.Defaults.DEFAULT_STRING
 import com.hoffi.generated.universe.Dummy
+import com.hoffi.generated.universe.IUuidDto
 import com.hoffi.generated.universe.WasGenerated
 import kotlin.Int
 import kotlin.String
@@ -31,7 +32,7 @@ public class SimpleEntityDtoRunDto(
   public val subentitys: MutableSet<SimpleSubentityDtoRunDto>? = mutableSetOf(),
   public val listOfStrings: List<String>,
   public var dtoSpecificProp: String = DEFAULT_STRING/* some dto specific comment */,
-) : APersistentOptimisticPersistentDtoRunDto(), WasGenerated, ISimpleDtoRunDto {
+) : APersistentOptimisticPersistentDtoRunDto(), WasGenerated, ISimpleDtoRunDto, IUuidDto {
   public var prio: Int = DEFAULT_INT/* some dto prio comment */
 
   public var aInstant: Instant = DEFAULT_INSTANT

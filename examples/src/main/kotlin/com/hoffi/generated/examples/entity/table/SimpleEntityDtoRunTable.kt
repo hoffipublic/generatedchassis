@@ -28,33 +28,33 @@ import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
   targetDto = SimpleEntityDtoRunDto::class,
 )
 public object SimpleEntityDtoRunTable : UuidTable("entity"), WasGenerated, ISimpleDtoRunDto {
-  public var name: Column<String> = varchar("name", 512)
+  public val name: Column<String> = varchar("name", 512).uniqueIndex()
 
-  public var `value`: Column<String> = varchar("value", 4_096)
+  public val `value`: Column<String> = varchar("value", 4_096)
 
-  public var prio: Column<Int> = integer("prio")/* some dto prio comment */
+  public val prio: Column<Int> = integer("prio")/* some table prio comment */
 
-  public var aInstant: Column<Instant> = timestamp("a_instant")
+  public val aInstant: Column<Instant> = timestamp("a_instant")
 
-  public var aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
+  public val aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
 
-  public var someModelObject: Column<UUID> =
+  public val someModelObject: Column<UUID> =
       uuid("some_model_object").uniqueIndex().references(SimpleSubentityDtoRunTable.uuid)
 
   public val subentitys = SimpleSubentityDtoRunTable mappedBy SimpleEntityDtoRunDto::subentitys
 
   public val listOfStrings: List<String> = listOf()
 
-  public var dtoSpecificProp: Column<String> = varchar("dto_specific_prop", 512)/* some dto specific
+  public val dtoSpecificProp: Column<String> = varchar("dto_specific_prop", 512)/* some dto specific
       comment */
 
-  public var optimisticLockId: Column<Long> = long("optimistic_lock_id")
+  public val optimisticLockId: Column<Long> = long("optimistic_lock_id")
 
-  public var createdAt: Column<LocalDateTime> = datetime("created_at")
+  public val createdAt: Column<LocalDateTime> = datetime("created_at")
 
-  public var updatedAt: Column<LocalDateTime> = datetime("updated_at")
+  public val updatedAt: Column<LocalDateTime> = datetime("updated_at")
 
-  public var createUser: Column<String> = varchar("create_user", 512)
+  public val createUser: Column<String> = varchar("create_user", 512)
 
-  public var updateUser: Column<String> = varchar("update_user", 512)
+  public val updateUser: Column<String> = varchar("update_user", 512)
 }
