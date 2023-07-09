@@ -3,11 +3,10 @@ package com.hoffi.generated.examples.entity.table
 import com.hoffi.generated.examples.entity.dto.ISimpleDtoRunDto
 import com.hoffi.generated.examples.entity.dto.SimpleEntityDtoRunDto
 import com.hoffi.generated.examples.entity.dto.SimpleSubentityDtoRunDto
-import com.hoffi.generated.universe.Dummy
-import com.hoffi.generated.universe.TABLE
+import com.hoffi.generated.universe.TABLEsDTO
 import com.hoffi.generated.universe.UuidTable
 import com.hoffi.generated.universe.WasGenerated
-import kotlin.Boolean
+import java.util.UUID
 import kotlin.Int
 import kotlin.Long
 import kotlin.String
@@ -18,14 +17,16 @@ import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
-import java.util.*
 
 /**
  * table model: Entity
  * with dslRef: disc:simpleEntities|modelgroup:Entitygroup|model:Entity|table
  * generated at DEVTIME on macbook-pro.fritz.box
  */
-@TABLE(SimpleEntityDtoRunDto::class)
+@TABLEsDTO(
+  SimpleEntityDtoRunTable::class,
+  targetDto = SimpleEntityDtoRunDto::class,
+)
 public object SimpleEntityDtoRunTable : UuidTable("entity"), WasGenerated, ISimpleDtoRunDto {
   public var name: Column<String> = varchar("name", 512)
 
@@ -37,12 +38,10 @@ public object SimpleEntityDtoRunTable : UuidTable("entity"), WasGenerated, ISimp
 
   public var aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
 
-  public var someObject: Dummy = Dummy.NULL
-
   public var someModelObject: Column<UUID> =
       uuid("some_model_object").uniqueIndex().references(SimpleSubentityDtoRunTable.uuid)
 
-  public val subentitys: MutableSet<SimpleSubentityDtoRunDto>? = mutableSetOf()
+  public val subentitys = SimpleSubentityDtoRunTable mappedBy SimpleEntityDtoRunDto::subentitys
 
   public val listOfStrings: List<String> = listOf()
 
@@ -50,12 +49,6 @@ public object SimpleEntityDtoRunTable : UuidTable("entity"), WasGenerated, ISimp
       comment */
 
   public var optimisticLockId: Column<Long> = long("optimistic_lock_id")
-
-  public var created: Column<Boolean> = bool("created")
-
-  public var modified: Column<Boolean> = bool("modified")
-
-  public var deleted: Column<Boolean> = bool("deleted")
 
   public var createdAt: Column<LocalDateTime> = datetime("created_at")
 

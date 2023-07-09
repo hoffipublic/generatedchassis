@@ -25,15 +25,17 @@ public abstract class UuidTable(
   public infix fun hasMany(parentUuidTable: UuidTable): FK = FK(this, parentUuidTable,
       multiplicity=2)
 
+  public infix fun mappedBy(mappedBy: KProperty1<out Any, Any?>): UuidTable = this
+
   public data class FK(
     public val uuidTable: UuidTable,
     public val parentUuidTable: UuidTable,
-    public val via: KProperty1<out Any, Any> = NULL,
+    public val via: KProperty1<out Any, Any?> = NULL,
     public val multiplicity: Int,
   ) {
     private val NULLPROP: String = "NULLPROP"
 
-    public infix fun via(via: KProperty1<out Any, Any>): FK = this.copy(via = via)
+    public infix fun via(via: KProperty1<out Any, Any?>): FK = this.copy(via = via)
 
     public companion object {
       public val NULL: KProperty1<out Any, Any> = FK::NULLPROP
