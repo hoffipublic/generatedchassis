@@ -4,6 +4,7 @@ import com.hoffi.generated.examples.entity.dto.SimpleSubentityDtoRunDto
 import com.hoffi.generated.universe.TABLEsDTO
 import com.hoffi.generated.universe.UuidTable
 import com.hoffi.generated.universe.WasGenerated
+import java.util.UUID
 import kotlin.Int
 import kotlin.String
 import kotlinx.datetime.Instant
@@ -11,7 +12,6 @@ import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
-import java.util.*
 
 /**
  * table model: Subentity
@@ -35,9 +35,6 @@ public object SimpleSubentityDtoRunTable : UuidTable("subentity"), WasGenerated 
 
   public val subEntityDtoSpecificProp: Column<String> = varchar("sub_entity_dto_specific_prop", 512)
 
-  public var entityBackreference: Column<UUID> =
-    uuid("entity_backreference").uniqueIndex().references(SimpleEntityDtoRunTable.uuid)
-
   public val createdAt: Column<LocalDateTime> = datetime("created_at")
 
   public val updatedAt: Column<LocalDateTime> = datetime("updated_at")
@@ -45,4 +42,8 @@ public object SimpleSubentityDtoRunTable : UuidTable("subentity"), WasGenerated 
   public val createUser: Column<String> = varchar("create_user", 512)
 
   public val updateUser: Column<String> = varchar("update_user", 512)
+
+  //@FKFROM(SimpleEntityDto::class)
+  public val entityUuid_subentitys: Column<UUID> =
+      uuid("entity_uuid_subentitys").uniqueIndex().references(SimpleEntityDtoRunTable.uuid)
 }

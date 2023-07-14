@@ -4,6 +4,7 @@ import java.util.UUID
 import kotlin.Any
 import kotlin.Int
 import kotlin.String
+import kotlin.reflect.KProperty0
 import kotlin.reflect.KProperty1
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.Table
@@ -25,7 +26,7 @@ public abstract class UuidTable(
   public infix fun hasMany(parentUuidTable: UuidTable): FK = FK(this, parentUuidTable,
       multiplicity=2)
 
-  public infix fun mappedBy(mappedBy: KProperty1<out Any, Any?>): UuidTable = this
+  public fun mappedBy(mappedBy: KProperty0<*>): Any? = null
 
   public data class FK(
     public val uuidTable: UuidTable,

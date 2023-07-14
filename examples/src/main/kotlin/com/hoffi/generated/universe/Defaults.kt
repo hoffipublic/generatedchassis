@@ -27,4 +27,18 @@ public object Defaults : WasGenerated {
   public val DEFAULT_LOCALDATETIME: LocalDateTime = DEFAULT_INSTANT.toLocalDateTime(TimeZone.UTC)
 
   public val DEFAULT_LOCALDATETIME_DB: LocalDateTime = DEFAULT_LOCALDATETIME
+
+  public val NULL_INT: Int = -2
+
+  public val NULL_LONG: Long = -2L
+
+  public val NULL_STRING: String = "<NULL>"
+
+  public val NULL_UUID: UUID = UUID.fromString("00000000-0000-0000-0000-000000000002")
+
+  public val NULL_INSTANT: Instant = Instant.fromEpochMilliseconds(2L)
+
+  public val NULL_LOCALDATETIME: LocalDateTime = NULL_INSTANT.toLocalDateTime(TimeZone.UTC)
+
+  public val NULL_LOCALDATETIME_DB: LocalDateTime = NULL_LOCALDATETIME
 }

@@ -7,10 +7,16 @@ import com.hoffi.generated.universe.Defaults.DEFAULT_INSTANT
 import com.hoffi.generated.universe.Defaults.DEFAULT_INT
 import com.hoffi.generated.universe.Defaults.DEFAULT_LOCALDATETIME
 import com.hoffi.generated.universe.Defaults.DEFAULT_STRING
+import com.hoffi.generated.universe.Defaults.NULL_STRING
 import com.hoffi.generated.universe.IUuidDto
 import com.hoffi.generated.universe.WasGenerated
+import java.util.UUID
+import java.util.UUID.randomUUID
+import kotlin.Any
+import kotlin.Boolean
 import kotlin.Int
 import kotlin.String
+import kotlin.jvm.JvmStatic
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 
@@ -36,9 +42,47 @@ public class SimpleSubentityDtoRunDto(
 
   public var entityBackreference: SimpleEntityDtoRunDto = SimpleEntityDtoRunDto.NULL
 
-  private constructor() : this(DEFAULT_STRING, DEFAULT_STRING, DEFAULT_STRING)
+  public override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other !is SimpleSubentityDtoRunDto) return false
+    if (uuid != other.uuid) return false /* PRIMARY */
+    return true
+  }
+
+  public override fun hashCode(): Int {
+    var result = uuid.hashCode() /* PRIMARY */
+    return result
+  }
+
+  override fun toString(): String =
+      """SimpleSubentityDtoRunDto(name='$name', value='$value', prio='$prio', uuid='$uuid')"""
 
   public companion object {
-    public val NULL: SimpleSubentityDtoRunDto = SimpleSubentityDtoRunDto()
+    public val NULL: SimpleSubentityDtoRunDto = SimpleSubentityDtoRunDto(NULL_STRING, NULL_STRING,
+        NULL_STRING)
+
+    @JvmStatic
+    public fun _internal_create(): SimpleSubentityDtoRunDto =
+        SimpleSubentityDtoRunDto(DEFAULT_STRING, DEFAULT_STRING, DEFAULT_STRING)
+
+    @JvmStatic
+    public fun _internal_createWithUuid(): SimpleSubentityDtoRunDto = _internal_create().apply {
+        uuid = UUID.randomUUID() }
+
+    @JvmStatic
+    public fun createShallowWithNewEmptyModels(): SimpleSubentityDtoRunDto {
+      val simpleSubentityDtoRunDto = _internal_createWithUuid()
+      simpleSubentityDtoRunDto.entityBackreference =
+          SimpleEntityDtoRunDto._internal_createWithUuid()
+      return simpleSubentityDtoRunDto
+    }
+
+    @JvmStatic
+    public fun createDeepWithNewEmptyModels(): SimpleSubentityDtoRunDto {
+      val simpleSubentityDtoRunDto = _internal_createWithUuid()
+      simpleSubentityDtoRunDto.entityBackreference =
+          SimpleEntityDtoRunDto.createDeepWithNewEmptyModels()
+      return simpleSubentityDtoRunDto
+    }
   }
 }

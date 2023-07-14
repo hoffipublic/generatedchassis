@@ -2,16 +2,14 @@ package com.hoffi.generated.examples.entity.table
 
 import com.hoffi.generated.examples.entity.dto.ISimpleDtoRunDto
 import com.hoffi.generated.examples.entity.dto.SimpleEntityDtoRunDto
-import com.hoffi.generated.examples.entity.dto.SimpleSubentityDtoRunDto
 import com.hoffi.generated.universe.TABLEsDTO
 import com.hoffi.generated.universe.UuidTable
 import com.hoffi.generated.universe.WasGenerated
 import java.util.UUID
+import kotlin.Any
 import kotlin.Int
 import kotlin.Long
 import kotlin.String
-import kotlin.collections.List
-import kotlin.collections.MutableSet
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.sql.Column
@@ -41,9 +39,12 @@ public object SimpleEntityDtoRunTable : UuidTable("entity"), WasGenerated, ISimp
   public val someModelObject: Column<UUID> =
       uuid("some_model_object").uniqueIndex().references(SimpleSubentityDtoRunTable.uuid)
 
-  public val subentitys = SimpleSubentityDtoRunTable mappedBy SimpleEntityDtoRunDto::subentitys
+  public val subentitys: Any? = mappedBy(SimpleSubentityDtoRunTable::entityUuid_subentitys)
 
-  public val listOfStrings: List<String> = listOf()
+  /**
+   * not implemented yet
+   */
+  public val listOfStrings: Any? = null
 
   public val dtoSpecificProp: Column<String> = varchar("dto_specific_prop", 512)/* some dto specific
       comment */
