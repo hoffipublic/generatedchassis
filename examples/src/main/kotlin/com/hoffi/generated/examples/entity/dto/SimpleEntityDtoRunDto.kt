@@ -86,6 +86,7 @@ public class SimpleEntityDtoRunDto protected constructor(
     @JvmStatic
     public fun createDeepWithNewEmptyModels(): SimpleEntityDtoRunDto {
       val simpleEntityDtoRunDto = _internal_createWithUuid()
+      /* beware of recursive calls, if Type or some submodel of it has a reference to this */
       simpleEntityDtoRunDto.someModelObject =
           SimpleSubentityDtoRunDto.createDeepWithNewEmptyModels()
       return simpleEntityDtoRunDto

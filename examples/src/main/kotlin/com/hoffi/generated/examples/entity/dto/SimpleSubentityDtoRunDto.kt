@@ -80,6 +80,7 @@ public class SimpleSubentityDtoRunDto(
     @JvmStatic
     public fun createDeepWithNewEmptyModels(): SimpleSubentityDtoRunDto {
       val simpleSubentityDtoRunDto = _internal_createWithUuid()
+      /* beware of recursive calls, if Type or some submodel of it has a reference to this */
       simpleSubentityDtoRunDto.entityBackreference =
           SimpleEntityDtoRunDto.createDeepWithNewEmptyModels()
       return simpleSubentityDtoRunDto
