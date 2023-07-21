@@ -43,7 +43,6 @@ public object SimpleSubentityDtoRunTable : UuidTable("subentity"), WasGenerated 
 
   public val updateUser: Column<String> = varchar("update_user", 512)
 
-  //@FKFROM(SimpleEntityDto::class)
   public val entityUuid_subentitys: Column<UUID> =
       uuid("entity_uuid_subentitys").uniqueIndex().references(SimpleEntityDtoRunTable.uuid)
 }

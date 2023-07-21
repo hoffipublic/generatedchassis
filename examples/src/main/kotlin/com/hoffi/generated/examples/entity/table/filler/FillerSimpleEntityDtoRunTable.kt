@@ -8,6 +8,7 @@ import kotlin.Number
 import kotlin.Unit
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import org.jetbrains.exposed.sql.statements.InsertStatement
 
 /**
@@ -44,5 +45,23 @@ public object FillerSimpleEntityDtoRunTable : WasGenerated {
     it[SimpleEntityDtoRunTable.updatedAt] = source.updatedAt
     it[SimpleEntityDtoRunTable.createUser] = source.createUser
     it[SimpleEntityDtoRunTable.updateUser] = source.updateUser
+  }
+
+  public fun batchInsertLambda(source: SimpleEntityDtoRunDto):
+      BatchInsertStatement.(SimpleEntityDtoRunDto) -> Unit = {
+    this[SimpleEntityDtoRunTable.name] = source.name
+    this[SimpleEntityDtoRunTable.value] = source.value
+    this[SimpleEntityDtoRunTable.prio] = source.prio
+    this[SimpleEntityDtoRunTable.aInstant] = source.aInstant
+    this[SimpleEntityDtoRunTable.aLocalDateTime] = source.aLocalDateTime
+    SimpleSubentityDtoRunTable.insert(FillerSimpleSubentityDtoRunTable.insertLambda(source.someModelObject))
+    this[SimpleEntityDtoRunTable.someModelObject] = source.someModelObject.uuid
+    this[SimpleEntityDtoRunTable.dtoSpecificProp] = source.dtoSpecificProp
+    this[SimpleEntityDtoRunTable.optimisticLockId] = source.optimisticLockId
+    this[SimpleEntityDtoRunTable.uuid] = source.uuid
+    this[SimpleEntityDtoRunTable.createdAt] = source.createdAt
+    this[SimpleEntityDtoRunTable.updatedAt] = source.updatedAt
+    this[SimpleEntityDtoRunTable.createUser] = source.createUser
+    this[SimpleEntityDtoRunTable.updateUser] = source.updateUser
   }
 }

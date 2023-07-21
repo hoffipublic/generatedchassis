@@ -6,6 +6,7 @@ import com.hoffi.generated.universe.WasGenerated
 import kotlin.Number
 import kotlin.Unit
 import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import org.jetbrains.exposed.sql.statements.InsertStatement
 
 /**
@@ -27,6 +28,21 @@ public object FillerSimpleSubentityDtoRunTable : WasGenerated {
     it[SimpleSubentityDtoRunTable.updatedAt] = source.updatedAt
     it[SimpleSubentityDtoRunTable.createUser] = source.createUser
     it[SimpleSubentityDtoRunTable.updateUser] = source.updateUser
+  }
+
+  public fun batchInsertLambda(source: SimpleSubentityDtoRunDto):
+      BatchInsertStatement.(SimpleSubentityDtoRunDto) -> Unit = {
+    this[SimpleSubentityDtoRunTable.name] = source.name
+    this[SimpleSubentityDtoRunTable.value] = source.value
+    this[SimpleSubentityDtoRunTable.prio] = source.prio
+    this[SimpleSubentityDtoRunTable.aInstant] = source.aInstant
+    this[SimpleSubentityDtoRunTable.aLocalDateTime] = source.aLocalDateTime
+    this[SimpleSubentityDtoRunTable.subEntityDtoSpecificProp] = source.subEntityDtoSpecificProp
+    this[SimpleSubentityDtoRunTable.uuid] = source.uuid
+    this[SimpleSubentityDtoRunTable.createdAt] = source.createdAt
+    this[SimpleSubentityDtoRunTable.updatedAt] = source.updatedAt
+    this[SimpleSubentityDtoRunTable.createUser] = source.createUser
+    this[SimpleSubentityDtoRunTable.updateUser] = source.updateUser
   }
 
   public fun simpleSubentityDtoRunDto(resultRow: ResultRow): SimpleSubentityDtoRunDto {
