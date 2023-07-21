@@ -1,6 +1,8 @@
 package com.hoffi.generated.examples.entity.table
 
+import com.hoffi.generated.examples.entity.dto.SimpleEntityDtoRunDto
 import com.hoffi.generated.examples.entity.dto.SimpleSubentityDtoRunDto
+import com.hoffi.generated.universe.FKFROM
 import com.hoffi.generated.universe.TABLEsDTO
 import com.hoffi.generated.universe.UuidTable
 import com.hoffi.generated.universe.WasGenerated
@@ -43,6 +45,7 @@ public object SimpleSubentityDtoRunTable : UuidTable("subentity"), WasGenerated 
 
   public val updateUser: Column<String> = varchar("update_user", 512)
 
+  @FKFROM(SimpleEntityDtoRunDto::class)
   public val entityUuid_subentitys: Column<UUID> =
       uuid("entity_uuid_subentitys").uniqueIndex().references(SimpleEntityDtoRunTable.uuid)
 }

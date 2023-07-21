@@ -36,6 +36,7 @@ public object FillerSimpleEntityDtoRunTable : WasGenerated {
     it[SimpleEntityDtoRunTable.prio] = source.prio
     it[SimpleEntityDtoRunTable.aInstant] = source.aInstant
     it[SimpleEntityDtoRunTable.aLocalDateTime] = source.aLocalDateTime
+    // TODO one2One check if dependant model Table Entry already exists!
     SimpleSubentityDtoRunTable.insert(FillerSimpleSubentityDtoRunTable.insertLambda(source.someModelObject))
     it[SimpleEntityDtoRunTable.someModelObject] = source.someModelObject.uuid
     it[SimpleEntityDtoRunTable.dtoSpecificProp] = source.dtoSpecificProp
@@ -54,7 +55,9 @@ public object FillerSimpleEntityDtoRunTable : WasGenerated {
     this[SimpleEntityDtoRunTable.prio] = source.prio
     this[SimpleEntityDtoRunTable.aInstant] = source.aInstant
     this[SimpleEntityDtoRunTable.aLocalDateTime] = source.aLocalDateTime
-    SimpleSubentityDtoRunTable.insert(FillerSimpleSubentityDtoRunTable.insertLambda(source.someModelObject))
+    // TODO one2One check if dependant model Table Entry already exists!
+    FillerSimpleSubentityDtoRunTable.batchInsertLambda(source.someModelObject).invoke(this,
+        source.someModelObject)
     this[SimpleEntityDtoRunTable.someModelObject] = source.someModelObject.uuid
     this[SimpleEntityDtoRunTable.dtoSpecificProp] = source.dtoSpecificProp
     this[SimpleEntityDtoRunTable.optimisticLockId] = source.optimisticLockId

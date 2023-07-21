@@ -13,4 +13,8 @@ public annotation class DTOsTABLE(
   public val targetTable: KClass<out Any>,
 )
 
+public annotation class FKFROM(
+  public vararg val targetClass: KClass<out Any>,
+)
+
 public annotation class TABLEMETADATA
