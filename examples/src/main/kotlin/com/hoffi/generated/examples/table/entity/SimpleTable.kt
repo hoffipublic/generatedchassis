@@ -1,6 +1,6 @@
-package com.hoffi.generated.examples.entity.table
+package com.hoffi.generated.examples.table.entity
 
-import com.hoffi.generated.examples.entity.dto.ISimpleDtoRunDto
+import com.hoffi.generated.examples.dto.entity.ISimpleDto
 import com.hoffi.generated.universe.TABLEsDTO
 import com.hoffi.generated.universe.WasGenerated
 import org.jetbrains.exposed.sql.Table
@@ -11,7 +11,7 @@ import org.jetbrains.exposed.sql.Table
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 @TABLEsDTO(
-  SimpleDtoRunTable::class,
-  targetDto = ISimpleDtoRunDto::class,
+  SimpleTable::class,
+  targetDto = ISimpleDto::class,
 )
-public object SimpleDtoRunTable : Table(""), WasGenerated
+public object SimpleTable : Table(""), WasGenerated

@@ -1,7 +1,7 @@
-package com.hoffi.generated.examples.entity.table
+package com.hoffi.generated.examples.table.entity
 
-import com.hoffi.generated.examples.entity.dto.SimpleEntityDtoRunDto
-import com.hoffi.generated.examples.entity.dto.SimpleSubentityDtoRunDto
+import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
+import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
 import com.hoffi.generated.universe.FKFROM
 import com.hoffi.generated.universe.TABLEsDTO
 import com.hoffi.generated.universe.UuidTable
@@ -21,10 +21,10 @@ import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 @TABLEsDTO(
-  SimpleSubentityDtoRunTable::class,
-  targetDto = SimpleSubentityDtoRunDto::class,
+  SimpleSubentityTable::class,
+  targetDto = SimpleSubentityDto::class,
 )
-public object SimpleSubentityDtoRunTable : UuidTable("subentity"), WasGenerated {
+public object SimpleSubentityTable : UuidTable("subentity"), WasGenerated {
   public val name: Column<String> = varchar("name", 512)
 
   public val `value`: Column<String> = varchar("value", 4_096)
@@ -45,7 +45,7 @@ public object SimpleSubentityDtoRunTable : UuidTable("subentity"), WasGenerated 
 
   public val updateUser: Column<String> = varchar("update_user", 512)
 
-  @FKFROM(SimpleEntityDtoRunDto::class)
+  @FKFROM(SimpleEntityDto::class)
   public val entityUuid_subentitys: Column<UUID> =
-      uuid("entity_uuid_subentitys").uniqueIndex().references(SimpleEntityDtoRunTable.uuid)
+      uuid("entity_uuid_subentitys").uniqueIndex().references(SimpleEntityTable.uuid)
 }

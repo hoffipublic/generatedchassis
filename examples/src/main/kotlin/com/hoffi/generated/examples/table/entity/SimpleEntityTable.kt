@@ -1,7 +1,7 @@
-package com.hoffi.generated.examples.entity.table
+package com.hoffi.generated.examples.table.entity
 
-import com.hoffi.generated.examples.entity.dto.ISimpleDtoRunDto
-import com.hoffi.generated.examples.entity.dto.SimpleEntityDtoRunDto
+import com.hoffi.generated.examples.dto.entity.ISimpleDto
+import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
 import com.hoffi.generated.universe.TABLEsDTO
 import com.hoffi.generated.universe.UuidTable
 import com.hoffi.generated.universe.WasGenerated
@@ -22,10 +22,10 @@ import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 @TABLEsDTO(
-  SimpleEntityDtoRunTable::class,
-  targetDto = SimpleEntityDtoRunDto::class,
+  SimpleEntityTable::class,
+  targetDto = SimpleEntityDto::class,
 )
-public object SimpleEntityDtoRunTable : UuidTable("entity"), WasGenerated, ISimpleDtoRunDto {
+public object SimpleEntityTable : UuidTable("entity"), WasGenerated, ISimpleDto {
   public val name: Column<String> = varchar("name", 512).uniqueIndex()
 
   public val `value`: Column<String> = varchar("value", 4_096)
@@ -37,9 +37,9 @@ public object SimpleEntityDtoRunTable : UuidTable("entity"), WasGenerated, ISimp
   public val aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
 
   public val someModelObject: Column<UUID> =
-      uuid("some_model_object").uniqueIndex().references(SimpleSubentityDtoRunTable.uuid)
+      uuid("some_model_object").uniqueIndex().references(SimpleSubentityTable.uuid)
 
-  public val subentitys: Any? = mappedBy(SimpleSubentityDtoRunTable::entityUuid_subentitys)
+  public val subentitys: Any? = mappedBy(SimpleSubentityTable::entityUuid_subentitys)
 
   /**
    * not implemented yet

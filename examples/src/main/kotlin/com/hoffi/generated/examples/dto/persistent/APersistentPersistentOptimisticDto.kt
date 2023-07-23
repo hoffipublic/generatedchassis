@@ -1,4 +1,4 @@
-package com.hoffi.generated.examples.dto.persistent.dto
+package com.hoffi.generated.examples.dto.persistent
 
 import com.hoffi.generated.universe.Defaults.DEFAULT_LONG
 import com.hoffi.generated.universe.IUuidDto
@@ -11,7 +11,7 @@ import kotlin.Long
  * disc:commonBasePersistentDisc|modelgroup:Persistentgroup|model:PersistentOptimistic|dto
  * generated at DEVTIME on macbook-pro.fritz.box
  */
-public abstract class APersistentOptimisticPersistentDtoRunDto() :
-    ATransientStatePersistentDtoRunDto(), WasGenerated, IUuidDto {
+public abstract class APersistentPersistentOptimisticDto() : APersistentTransientStateDto(),
+    WasGenerated, IUuidDto {
   public var optimisticLockId: Long = DEFAULT_LONG
 }

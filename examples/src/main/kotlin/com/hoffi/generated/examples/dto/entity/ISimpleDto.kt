@@ -1,6 +1,6 @@
-package com.hoffi.generated.examples.entity.dto
+package com.hoffi.generated.examples.dto.entity
 
-import com.hoffi.generated.examples.entity.table.SimpleDtoRunTable
+import com.hoffi.generated.examples.table.entity.SimpleTable
 import com.hoffi.generated.universe.DTOsTABLE
 import com.hoffi.generated.universe.WasGenerated
 
@@ -10,7 +10,7 @@ import com.hoffi.generated.universe.WasGenerated
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 @DTOsTABLE(
-  ISimpleDtoRunDto::class,
-  targetTable = SimpleDtoRunTable::class,
+  ISimpleDto::class,
+  targetTable = SimpleTable::class,
 )
-public interface ISimpleDtoRunDto : WasGenerated
+public interface ISimpleDto : WasGenerated

@@ -1,9 +1,9 @@
 package com.hoffi.generated
 
-import com.hoffi.generated.examples.entity.dto.SimpleEntityDtoRunDto
-import com.hoffi.generated.examples.entity.dto.SimpleSubentityDtoRunDto
-import com.hoffi.generated.examples.entity.table.SimpleEntityDtoRunTable
-import com.hoffi.generated.examples.entity.table.SimpleSubentityDtoRunTable
+import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
+import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
+import com.hoffi.generated.examples.table.entity.SimpleEntityTable
+import com.hoffi.generated.examples.table.entity.SimpleSubentityTable
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -22,17 +22,17 @@ class MainGenerated {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(
                 // !!! order of table creation matters !!!
-                SimpleSubentityDtoRunTable,
-                SimpleEntityDtoRunTable,
+                SimpleSubentityTable,
+                SimpleEntityTable,
             )
         }
 
-        val someEntityDtos = mutableListOf<SimpleEntityDtoRunDto>()
+        val someEntityDtos = mutableListOf<SimpleEntityDto>()
         val iCount = 10
         for (i in 1..iCount) {
-            val simpleEntityDto = doCreateSimpleEntityDtoRunDto(i)
+            val simpleEntityDto = doCreateSimpleEntityDtos(i)
             someEntityDtos.add(simpleEntityDto)
-            val subs = doCreateSimpleSubentityDtoRunDtos(i, 5)
+            val subs = doCreateSimpleSubentityDtos(i, 5)
             simpleEntityDto.subentitys?.addAll(subs)
         }
 
@@ -97,8 +97,8 @@ class MainGenerated {
         //}
     } // main
 
-    private fun doCreateSimpleEntityDtoRunDto(i: Int): SimpleEntityDtoRunDto {
-        val simpleEntityDto = SimpleEntityDtoRunDto._internal_createWithUuid()
+    private fun doCreateSimpleEntityDtos(i: Int): SimpleEntityDto {
+        val simpleEntityDto = SimpleEntityDto._internal_createWithUuid()
         simpleEntityDto.apply {
             dtoSpecificProp = "dtoSpecificProp$i"
             name = "name$i"
@@ -107,7 +107,7 @@ class MainGenerated {
             optimisticLockId = i.toLong()
             aInstant = Clock.System.now()
             aLocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.UTC)
-            someModelObject = SimpleSubentityDtoRunDto(
+            someModelObject = SimpleSubentityDto(
                 name = "subname${i}_${i}",
                 `value` = "subvalue${i}_${i}",
                 subEntityDtoSpecificProp = "subDtoSpecificProp$i",
@@ -121,10 +121,10 @@ class MainGenerated {
         return simpleEntityDto
     }
 
-    private fun doCreateSimpleSubentityDtoRunDtos(i: Int, count: Int): List<SimpleSubentityDtoRunDto> {
-        val subentitys = mutableListOf<SimpleSubentityDtoRunDto>()
+    private fun doCreateSimpleSubentityDtos(i: Int, count: Int): List<SimpleSubentityDto> {
+        val subentitys = mutableListOf<SimpleSubentityDto>()
         for (ii in 1..count) {
-            val subentity = SimpleSubentityDtoRunDto(
+            val subentity = SimpleSubentityDto(
                 name = "subname${i}_${ii}",
                 `value` = "subvalue${i}_${ii}",
                 subEntityDtoSpecificProp = "subDtoSpecificProp$ii",

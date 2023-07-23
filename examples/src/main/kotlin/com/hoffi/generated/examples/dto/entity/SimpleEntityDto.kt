@@ -1,7 +1,7 @@
-package com.hoffi.generated.examples.entity.dto
+package com.hoffi.generated.examples.dto.entity
 
-import com.hoffi.generated.examples.dto.persistent.dto.APersistentOptimisticPersistentDtoRunDto
-import com.hoffi.generated.examples.entity.table.SimpleEntityDtoRunTable
+import com.hoffi.generated.examples.dto.persistent.APersistentPersistentOptimisticDto
+import com.hoffi.generated.examples.table.entity.SimpleEntityTable
 import com.hoffi.generated.universe.DTOsTABLE
 import com.hoffi.generated.universe.Defaults.DEFAULT_INSTANT
 import com.hoffi.generated.universe.Defaults.DEFAULT_INT
@@ -29,16 +29,16 @@ import kotlinx.datetime.LocalDateTime
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 @DTOsTABLE(
-  SimpleEntityDtoRunDto::class,
-  targetTable = SimpleEntityDtoRunTable::class,
+  SimpleEntityDto::class,
+  targetTable = SimpleEntityTable::class,
 )
-public class SimpleEntityDtoRunDto protected constructor(
+public class SimpleEntityDto protected constructor(
   public var name: String,
   public var `value`: String = DEFAULT_STRING,
-  public val subentitys: MutableSet<SimpleSubentityDtoRunDto>? = mutableSetOf(),
+  public val subentitys: MutableSet<SimpleSubentityDto>? = mutableSetOf(),
   public val listOfStrings: List<String>,
   public var dtoSpecificProp: String = DEFAULT_STRING/* some dto specific comment */,
-) : APersistentOptimisticPersistentDtoRunDto(), WasGenerated, ISimpleDtoRunDto, IUuidDto {
+) : APersistentPersistentOptimisticDto(), WasGenerated, ISimpleDto, IUuidDto {
   public var prio: Int = DEFAULT_INT/* some dto prio comment */
 
   public var aInstant: Instant = DEFAULT_INSTANT
@@ -47,11 +47,11 @@ public class SimpleEntityDtoRunDto protected constructor(
 
   public var someObject: Dummy = Dummy.NULL
 
-  public var someModelObject: SimpleSubentityDtoRunDto = SimpleSubentityDtoRunDto.NULL
+  public var someModelObject: SimpleSubentityDto = SimpleSubentityDto.NULL
 
   public override fun equals(other: Any?): Boolean {
     if (this === other) return true
-    if (other !is SimpleEntityDtoRunDto) return false
+    if (other !is SimpleEntityDto) return false
     if (uuid != other.uuid) return false /* PRIMARY */
     return true
   }
@@ -62,44 +62,43 @@ public class SimpleEntityDtoRunDto protected constructor(
   }
 
   override fun toString(): String =
-      """SimpleEntityDtoRunDto(name='$name', value='$value', prio='$prio', uuid='$uuid')"""
+      """SimpleEntityDto(name='$name', value='$value', prio='$prio', uuid='$uuid')"""
 
   public companion object {
-    public val NULL: SimpleEntityDtoRunDto = SimpleEntityDtoRunDto(NULL_STRING, NULL_STRING,
-        mutableSetOf(), listOf(), NULL_STRING)
+    public val NULL: SimpleEntityDto = SimpleEntityDto(NULL_STRING, NULL_STRING, mutableSetOf(),
+        listOf(), NULL_STRING)
 
     @JvmStatic
-    public fun _internal_create(): SimpleEntityDtoRunDto = SimpleEntityDtoRunDto(DEFAULT_STRING,
-        DEFAULT_STRING, mutableSetOf(), listOf(), DEFAULT_STRING)
+    public fun _internal_create(): SimpleEntityDto = SimpleEntityDto(DEFAULT_STRING, DEFAULT_STRING,
+        mutableSetOf(), listOf(), DEFAULT_STRING)
 
     @JvmStatic
-    public fun _internal_createWithUuid(): SimpleEntityDtoRunDto = _internal_create().apply { uuid =
+    public fun _internal_createWithUuid(): SimpleEntityDto = _internal_create().apply { uuid =
         UUID.randomUUID() }
 
     @JvmStatic
-    public fun createShallowWithNewEmptyModels(): SimpleEntityDtoRunDto {
-      val simpleEntityDtoRunDto = _internal_createWithUuid()
-      simpleEntityDtoRunDto.someModelObject = SimpleSubentityDtoRunDto._internal_createWithUuid()
-      return simpleEntityDtoRunDto
+    public fun createShallowWithNewEmptyModels(): SimpleEntityDto {
+      val simpleEntityDto = _internal_createWithUuid()
+      simpleEntityDto.someModelObject = SimpleSubentityDto._internal_createWithUuid()
+      return simpleEntityDto
     }
 
     @JvmStatic
-    public fun createDeepWithNewEmptyModels(): SimpleEntityDtoRunDto {
-      val simpleEntityDtoRunDto = _internal_createWithUuid()
+    public fun createDeepWithNewEmptyModels(): SimpleEntityDto {
+      val simpleEntityDto = _internal_createWithUuid()
       /* beware of recursive calls, if Type or some submodel of it has a reference to this */
-      simpleEntityDtoRunDto.someModelObject =
-          SimpleSubentityDtoRunDto.createDeepWithNewEmptyModels()
-      return simpleEntityDtoRunDto
+      simpleEntityDto.someModelObject = SimpleSubentityDto.createDeepWithNewEmptyModels()
+      return simpleEntityDto
     }
 
     @JvmStatic
     public fun create(
       name: String,
       `value`: String = DEFAULT_STRING,
-      subentitys: MutableSet<SimpleSubentityDtoRunDto>? = mutableSetOf(),
+      subentitys: MutableSet<SimpleSubentityDto>? = mutableSetOf(),
       listOfStrings: List<String>,
       dtoSpecificProp: String = DEFAULT_STRING/* some dto specific comment */,
-    ): SimpleEntityDtoRunDto = SimpleEntityDtoRunDto(name, value, subentitys, listOfStrings,
+    ): SimpleEntityDto = SimpleEntityDto(name, value, subentitys, listOfStrings,
         dtoSpecificProp).apply { uuid = UUID.randomUUID() }
   }
 }
