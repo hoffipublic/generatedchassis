@@ -1,6 +1,5 @@
 package com.hoffi.generated.examples.entity.dto.filler
 
-import com.hoffi.generated.examples.dto.persistent.dto.filler.FillerAPersistentBasePersistentDtoRunDto
 import com.hoffi.generated.examples.entity.dto.SimpleEntityDtoRunDto
 import com.hoffi.generated.examples.entity.dto.SimpleSubentityDtoRunDto
 import com.hoffi.generated.universe.WasGenerated
@@ -40,6 +39,10 @@ public object FillerSimpleSubentityDtoRunDto : WasGenerated {
     target.aInstant = source.aInstant
     target.aLocalDateTime = source.aLocalDateTime
     target.subEntityDtoSpecificProp = source.subEntityDtoSpecificProp
+    target.createdAt = source.createdAt
+    target.updatedAt = source.updatedAt
+    target.createUser = source.createUser
+    target.updateUser = source.updateUser
     return target
   }
 
@@ -72,7 +75,6 @@ public object FillerSimpleSubentityDtoRunDto : WasGenerated {
     else
         FillerSimpleEntityDtoRunDto.copyDeepInto(target.entityBackreference,
         source.entityBackreference)
-    FillerAPersistentBasePersistentDtoRunDto.copyDeepInto(target, source)
     return target
   }
 
@@ -84,7 +86,6 @@ public object FillerSimpleSubentityDtoRunDto : WasGenerated {
     else
         FillerSimpleEntityDtoRunDto.copyDeepInto(target.entityBackreference,
         source.entityBackreference)
-    FillerAPersistentBasePersistentDtoRunDto.copyDeepInto(target, source)
     return target
   }
 }
