@@ -16,7 +16,7 @@ fun main(args: Array<String>) {
 }
 class MainGenerated {
     fun doIt(args: Array<String>) {
-        val dbConnect = Database.connect("jdbc:postgresql://localhost:5432/chassis", driver = "org.postgresql.Driver", user = "chassis")
+        val dbConnect = Database.connect("jdbc:postgresql://localhost:5432/chassis?reWriteBatchedInserts=true", driver = "org.postgresql.Driver", user = "chassis")
 //        val dbConnect = Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
         transaction {
             addLogger(StdOutSqlLogger)
@@ -51,13 +51,13 @@ class MainGenerated {
             println()
         }
 
-//        transaction {
-//            addLogger(StdOutSqlLogger)
-//            for(dto in someEntityDtos) {
-//                SimpleEntityTableOps.insert(dto)
-//            }
-//            // SimpleEntityTableOps.batchInsert(someEntityDtos)
-//        }
+        transaction {
+            addLogger(StdOutSqlLogger)
+            for(dto in someEntityDtos) {
+                SimpleEntityTableOps.insert(dto)
+            }
+            // SimpleEntityTableOps.batchInsert(someEntityDtos)
+        }
 
         //val resultRowList: List<ResultRow> = transaction {
         //    addLogger(StdOutSqlLogger)

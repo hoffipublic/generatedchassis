@@ -55,7 +55,7 @@ public class SimpleSubentityDto(
   }
 
   override fun toString(): String =
-      """SimpleSubentityDto(name='$name', value='$value', prio='$prio', uuid='$uuid')"""
+      """SimpleSubentityDto(uuid='$uuid', name='$name', value='$value', prio='$prio')"""
 
   public companion object {
     public val NULL: SimpleSubentityDto = SimpleSubentityDto(NULL_STRING, NULL_STRING, NULL_STRING)

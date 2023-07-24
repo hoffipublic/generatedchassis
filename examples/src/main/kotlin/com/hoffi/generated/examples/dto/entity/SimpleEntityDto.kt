@@ -62,7 +62,7 @@ public class SimpleEntityDto protected constructor(
   }
 
   override fun toString(): String =
-      """SimpleEntityDto(name='$name', value='$value', prio='$prio', uuid='$uuid')"""
+      """SimpleEntityDto(uuid='$uuid', name='$name', value='$value', dtoSpecificProp='$dtoSpecificProp', createdAt='$createdAt')"""
 
   public companion object {
     public val NULL: SimpleEntityDto = SimpleEntityDto(NULL_STRING, NULL_STRING, mutableSetOf(),
