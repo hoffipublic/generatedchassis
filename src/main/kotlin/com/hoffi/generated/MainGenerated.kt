@@ -51,13 +51,13 @@ class MainGenerated {
             println()
         }
 
-        transaction {
-            addLogger(StdOutSqlLogger)
-            for(dto in someEntityDtos) {
-                SimpleEntityTableOps.insert(dto)
-            }
-            // SimpleEntityTableOps.batchInsert(someEntityDtos)
-        }
+        //transaction {
+        //    addLogger(StdOutSqlLogger)
+        //    for(dto in someEntityDtos) {
+        //        SimpleEntityTableOps.insert(dto)
+        //    }
+        //    // SimpleEntityTableOps.batchInsert(someEntityDtos)
+        //}
 
         //val resultRowList: List<ResultRow> = transaction {
         //    addLogger(StdOutSqlLogger)

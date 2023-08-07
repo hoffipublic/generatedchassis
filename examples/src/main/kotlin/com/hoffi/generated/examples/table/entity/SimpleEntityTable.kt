@@ -36,10 +36,10 @@ public object SimpleEntityTable : UuidTable("entity"), WasGenerated, ISimpleDto 
 
   public val aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
 
-  public val someModelObject: Column<UUID> =
-      uuid("some_model_object").uniqueIndex().references(SimpleSubentityTable.uuid)
+  public val someModelObjectUuid: Column<UUID> =
+      uuid("some_model_object_uuid").uniqueIndex().references(SimpleSubentityTable.uuid)
 
-  public val subentitys: Any? = mappedBy(SimpleSubentityTable::entityUuid_subentitys)
+  public val subentitys: Any? = mappedBy(SimpleSubentityTable::simpleEntityDtoUuidForSubentitys)
 
   /**
    * not implemented yet

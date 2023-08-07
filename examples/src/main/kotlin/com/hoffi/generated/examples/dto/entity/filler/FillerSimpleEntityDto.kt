@@ -101,6 +101,48 @@ public object FillerSimpleEntityDto : WasGenerated {
     return target
   }
 
+  public fun simpleSubentityDtoCopyShallowIgnoreModelsInto(target: SimpleEntityDto,
+      source: SimpleSubentityDto): SimpleEntityDto {
+    if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
+    target.name = source.name
+    target.value = source.value
+    target.prio = source.prio
+    target.aInstant = source.aInstant
+    target.aLocalDateTime = source.aLocalDateTime
+    target.createdAt = source.createdAt
+    target.updatedAt = source.updatedAt
+    target.createUser = source.createUser
+    target.updateUser = source.updateUser
+    return target
+  }
+
+  public fun simpleSubentityDtoCopyShallowWithNewModelsInto(target: SimpleEntityDto,
+      source: SimpleSubentityDto): SimpleEntityDto {
+    if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
+    simpleSubentityDtoCopyShallowIgnoreModelsInto(target, source)
+    return target
+  }
+
+  public fun simpleSubentityDtoCopyShallowAndTakeSameModelsInto(target: SimpleEntityDto,
+      source: SimpleSubentityDto): SimpleEntityDto {
+    if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
+    simpleSubentityDtoCopyShallowIgnoreModelsInto(target, source)
+    return target
+  }
+
+  public fun simpleSubentityDtoCopyDeepInto(target: SimpleEntityDto, source: SimpleSubentityDto):
+      SimpleEntityDto {
+    if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
+    simpleSubentityDtoCopyShallowIgnoreModelsInto(target, source)
+    return target
+  }
+
+  public fun simpleSubentityDtoCloneDeep(source: SimpleSubentityDto): SimpleEntityDto {
+    val target = SimpleEntityDto._internal_createWithUuid()
+    simpleSubentityDtoCopyShallowIgnoreModelsInto(target, source)
+    return target
+  }
+
   public fun withoutModelsCopyShallowIgnoreModelsInto(target: SimpleEntityDto,
       source: SimpleEntityDto): SimpleEntityDto {
     if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
@@ -157,43 +199,6 @@ public object FillerSimpleEntityDto : WasGenerated {
     target.subentitys?.addAll(source.subentitys?.toList() ?: emptyList())
     // target.listOfStrings.clear()
     // target.listOfStrings.addAll(source.listOfStrings)
-    return target
-  }
-
-  public fun simpleSubentityDtoCopyShallowIgnoreModelsInto(target: SimpleEntityDto,
-      source: SimpleSubentityDto): SimpleEntityDto {
-    if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
-    target.createdAt = source.createdAt
-    target.updatedAt = source.updatedAt
-    target.createUser = source.createUser
-    target.updateUser = source.updateUser
-    return target
-  }
-
-  public fun simpleSubentityDtoCopyShallowWithNewModelsInto(target: SimpleEntityDto,
-      source: SimpleSubentityDto): SimpleEntityDto {
-    if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
-    simpleSubentityDtoCopyShallowIgnoreModelsInto(target, source)
-    return target
-  }
-
-  public fun simpleSubentityDtoCopyShallowAndTakeSameModelsInto(target: SimpleEntityDto,
-      source: SimpleSubentityDto): SimpleEntityDto {
-    if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
-    simpleSubentityDtoCopyShallowIgnoreModelsInto(target, source)
-    return target
-  }
-
-  public fun simpleSubentityDtoCopyDeepInto(target: SimpleEntityDto, source: SimpleSubentityDto):
-      SimpleEntityDto {
-    if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
-    simpleSubentityDtoCopyShallowIgnoreModelsInto(target, source)
-    return target
-  }
-
-  public fun simpleSubentityDtoCloneDeep(source: SimpleSubentityDto): SimpleEntityDto {
-    val target = SimpleEntityDto._internal_createWithUuid()
-    simpleSubentityDtoCopyShallowIgnoreModelsInto(target, source)
     return target
   }
 }

@@ -81,4 +81,48 @@ public object FillerSimpleSubentityDto : WasGenerated {
         FillerSimpleEntityDto.copyDeepInto(target.entityBackreference, source.entityBackreference)
     return target
   }
+
+  public fun withoutModelsCopyShallowIgnoreModelsInto(target: SimpleSubentityDto,
+      source: SimpleSubentityDto): SimpleSubentityDto {
+    if (target === SimpleSubentityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
+    target.name = source.name
+    target.value = source.value
+    target.prio = source.prio
+    target.aInstant = source.aInstant
+    target.aLocalDateTime = source.aLocalDateTime
+    target.subEntityDtoSpecificProp = source.subEntityDtoSpecificProp
+    target.createdAt = source.createdAt
+    target.updatedAt = source.updatedAt
+    target.createUser = source.createUser
+    target.updateUser = source.updateUser
+    return target
+  }
+
+  public fun withoutModelsCopyShallowWithNewModelsInto(target: SimpleSubentityDto,
+      source: SimpleSubentityDto): SimpleSubentityDto {
+    if (target === SimpleSubentityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
+    withoutModelsCopyShallowIgnoreModelsInto(target, source)
+    // beware of recursive calls, if Type or some submodel of it has a reference to this
+    target.entityBackreference = SimpleEntityDto.createDeepWithNewEmptyModels()
+    return target
+  }
+
+  public fun withoutModelsCopyShallowAndTakeSameModelsInto(target: SimpleSubentityDto,
+      source: SimpleSubentityDto): SimpleSubentityDto {
+    if (target === SimpleSubentityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
+    withoutModelsCopyShallowIgnoreModelsInto(target, source)
+    target.entityBackreference = source.entityBackreference
+    return target
+  }
+
+  public fun withoutModelsCopyDeepInto(target: SimpleSubentityDto, source: SimpleSubentityDto):
+      SimpleSubentityDto {
+    if (target === SimpleSubentityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
+    withoutModelsCopyShallowIgnoreModelsInto(target, source)
+    if (source.entityBackreference === SimpleEntityDto.NULL)
+        target.entityBackreference = source.entityBackreference
+    else
+        FillerSimpleEntityDto.copyDeepInto(target.entityBackreference, source.entityBackreference)
+    return target
+  }
 }
