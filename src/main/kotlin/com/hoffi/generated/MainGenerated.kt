@@ -1,15 +1,21 @@
 package com.hoffi.generated
 
 import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
+import com.hoffi.generated.examples.dto.entity.SimpleSomeModelDto
 import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
 import com.hoffi.generated.examples.table.entity.SimpleEntityTable
 import com.hoffi.generated.examples.table.entity.SimpleSubentityTable
+import com.hoffi.generated.examples.table.entity.sql.CrudSimpleEntityTableCREATE
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.*
 
 fun main(args: Array<String>) {
     MainGenerated().doIt(args)
@@ -18,6 +24,8 @@ class MainGenerated {
     fun doIt(args: Array<String>) {
         val dbConnect = Database.connect("jdbc:postgresql://localhost:5432/chassis?reWriteBatchedInserts=true", driver = "org.postgresql.Driver", user = "chassis")
 //        val dbConnect = Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
+        TransactionManager.managerFor(dbConnect)?.defaultRepetitionAttempts = 0
+
         transaction {
             addLogger(StdOutSqlLogger)
             SchemaUtils.create(
@@ -27,13 +35,15 @@ class MainGenerated {
             )
         }
 
+        // delete from simple_entity ; delete from simple_subentity ; delete from simple_some_model ;
+
         val someEntityDtos = mutableListOf<SimpleEntityDto>()
         val iCount = 10
         for (i in 1..iCount) {
             val simpleEntityDto = doCreateSimpleEntityDtos(i)
             someEntityDtos.add(simpleEntityDto)
             val subs = doCreateSimpleSubentityDtos(i, 5)
-            simpleEntityDto.subentitys?.addAll(subs)
+            simpleEntityDto.subentitys?.addAll(subs) ?: throw Exception("subentitys was null")
         }
 
 
@@ -51,13 +61,18 @@ class MainGenerated {
             println()
         }
 
-        //transaction {
-        //    addLogger(StdOutSqlLogger)
-        //    for(dto in someEntityDtos) {
-        //        SimpleEntityTableOps.insert(dto)
-        //    }
-        //    // SimpleEntityTableOps.batchInsert(someEntityDtos)
-        //}
+        transaction {
+            addLogger(StdOutSqlLogger)
+            val subentity = someEntityDtos[0].subentitys!!.first()
+            someEntityDtos[0].subentitys!!.clear()
+            someEntityDtos[0].subentitys!!.add(subentity)
+            CrudSimpleEntityTableCREATE.insert(someEntityDtos[0])
+            val i = 42
+            //for(dto in someEntityDtos) {
+            //    CrudSimpleEntityTableCREATE.insert(dto)
+            //}
+            //// SimpleEntityTableOps.batchInsert(someEntityDtos)
+        }
 
         //val resultRowList: List<ResultRow> = transaction {
         //    addLogger(StdOutSqlLogger)
@@ -107,10 +122,9 @@ class MainGenerated {
             optimisticLockId = i.toLong()
             aInstant = Clock.System.now()
             aLocalDateTime = Clock.System.now().toLocalDateTime(TimeZone.UTC)
-            someModelObject = SimpleSubentityDto(
-                name = "subname${i}_${i}",
-                `value` = "subvalue${i}_${i}",
-                subEntityDtoSpecificProp = "subDtoSpecificProp$i",
+            someModelObject = SimpleSomeModelDto.create(
+                "somename${i}_${i}",
+                "somevalue${i}_${i}",
             ).apply {
                 prio = i*10+i
                 optimisticLockId = 41L
@@ -129,6 +143,7 @@ class MainGenerated {
                 `value` = "subvalue${i}_${ii}",
                 subEntityDtoSpecificProp = "subDtoSpecificProp$ii",
             ).apply {
+                uuid = UUID.randomUUID()
                 prio = i*100+ii
                 //optimisticLockId = 43L
                 aInstant = Clock.System.now()
