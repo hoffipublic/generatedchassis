@@ -4,6 +4,7 @@ import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
 import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
 import com.hoffi.generated.examples.table.entity.SimpleEntityTable
 import com.hoffi.generated.examples.table.entity.SimpleSomeModelTable
+import com.hoffi.generated.examples.table.entity.sql.CrudSimpleSomeModelTableCREATE
 import com.hoffi.generated.universe.WasGenerated
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
@@ -36,24 +37,16 @@ public object FillerSimpleEntityTable : WasGenerated {
     return target
   }
 
-  public fun insertWithout2ManysLambda(source: SimpleEntityDto /*, noBackref: Dto */):
+  public fun insertShallowAnd1To1sLambda(source: SimpleEntityDto /*, noBackref: Dto */):
       SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
     insert1to1ModelsLambda(source).invoke(this, it)
     insertShallowLambda(source).invoke(this, it)
-    //set2ManyOutgoingFKsLambda(source).invoke(this, it) // only if this is x2n backref for something
   }
 
-  public fun insert1to1ModelsLambda(source: SimpleEntityDto):
-      SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
+  public fun insert1to1ModelsLambda(source: SimpleEntityDto): SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
     // TODO one2One check if dependant model Table Entry already exists!
-    SimpleSomeModelTable.insert(FillerSimpleSomeModelTable.insertWithout2ManysLambda(source.someModelObject))
+    CrudSimpleSomeModelTableCREATE.insert(source.someModelObject /* , backRef1: SomeDto, backRef2: SomeOtherDto */)
     it[SimpleEntityTable.someModelObjectUuid] = source.someModelObject.uuid
-  }
-
-  // only if x2n backref for something
-  public fun set2ManyOutgoingFKsLambda(redundant: SimpleEntityDto):
-          SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
-    // NONE
   }
 
   public fun insertShallowLambda(source: SimpleEntityDto):
@@ -72,24 +65,15 @@ public object FillerSimpleEntityTable : WasGenerated {
     it[SimpleEntityTable.updateUser] = source.updateUser
   }
 
-  public fun batchInsertWithout2ManysLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
+  public fun batchInsertShallowAnd1To1sLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
     batchInsert1to1ModelsLambda().invoke(this, it)
     batchInsertShallowLambda().invoke(this, it) // 1to1 FKed row in dependant table has already to exist here!
-    //batchSet2ManyOutgoingFKsLambda(it /*, backref */).invoke(this, it) // only if x2n backref for something().invoke(this, it)
-  }
-
-  // only if x2n backref for something
-  public fun batchSet2ManyOutgoingFKsLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
-    // NONE
   }
 
   public fun batchInsert1to1ModelsLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
     // TODO one2One check if dependant model Table Entry already exists!
-    FillerSimpleSomeModelTable.batchInsertWithout2ManysLambda().invoke(this, it.someModelObject)
+    FillerSimpleSomeModelTable.batchInsertShallowAnd1To1sLambda().invoke(this, it.someModelObject)
     this[SimpleEntityTable.someModelObjectUuid] = it.someModelObject.uuid
-  }
-
-  public fun batchInsert2ManyBackrefLambda(XXXisNotPartOfAny2ManyBackref: Int): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
   }
 
   public fun batchInsertShallowLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
@@ -145,7 +129,7 @@ public object FillerSimpleEntityTable : WasGenerated {
   public fun withoutModelsInsertLambda(source: SimpleEntityDto):
       SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
     insertShallowLambda(source).invoke(this, it)
-    set2ManyOutgoingFKsLambda(source).invoke(this, it)
+//    set2ManyOutgoingFKsLambda(source).invoke(this, it)
     insert1to1ModelsLambda(source).invoke(this, it)
   }
 

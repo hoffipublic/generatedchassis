@@ -20,6 +20,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:${versionExposed}")
     implementation("org.slf4j:slf4j-nop:${versionSlf4j}")
 
+    implementation("net.datafaker:datafaker:2.0.1")
+    implementation("org.instancio:instancio-core:3.0.1")
+
     // for DEVMODE
     runtimeOnly("com.h2database:h2:$versionH2")
     runtimeOnly("org.postgresql:postgresql:$versionPostgres")

@@ -2,12 +2,12 @@ package com.hoffi.generated.examples.table.entity.sql
 
 import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
 import com.hoffi.generated.examples.table.entity.SimpleEntityTable
-import com.hoffi.generated.examples.table.entity.SimpleSubentityTable
 import com.hoffi.generated.examples.table.entity.filler.FillerSimpleEntityTable
-import com.hoffi.generated.examples.table.entity.filler.FillerSimpleSubentityTable
 import com.hoffi.generated.universe.WasGenerated
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.statements.BatchInsertStatement
+import org.jetbrains.exposed.sql.statements.InsertStatement
 
 /**
  * CRUD CREATE for table model: Entity
@@ -15,27 +15,45 @@ import org.jetbrains.exposed.sql.insert
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 public object CrudSimpleEntityTableCREATE : WasGenerated {
-    public fun insert(source: SimpleEntityDto) {
-        SimpleEntityTable.insert(FillerSimpleEntityTable.insertWithout2ManysLambda(source))
-        SimpleSubentityTable.batchInsert(source.subentitys ?: emptyList(), shouldReturnGeneratedValues = false,
-            body = FillerSimpleSubentityTable.batchInsertWithout2ManysLambda(source)
-        )
+    /* we'd also need all backref Instances of manyTo1 instances of our manyTo1 instances */
+    public fun insert(source: SimpleEntityDto
+        //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
+    ) {
+        // shallow insert SimpleEntityDto with 1To1's and our outgoing 1To1 FKs
+        val insertShallowWith1To1s: SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
+            FillerSimpleEntityTable.insertShallowAnd1To1sLambda(source).invoke(this, it)
+            // TODO add some callback to put further things source
+            // e.g. it[SimpleEntityTable.someOtherModelUuid] = outside.someOtherModel.uuid
+        }
+        SimpleEntityTable.insert(insertShallowWith1To1s)
+
+        // insert ManyTo1 Instances
+        CrudSimpleSubentityTableCREATE.batchInsert(source.subentitys ?: emptyList(), source) /* , otherBackref1, otherBackref2) */
     }
 
-    public fun batchInsert(sources: Collection<SimpleEntityDto>) {
+    public fun batchInsert(sources: Collection<SimpleEntityDto>
+        //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
+    ) {
+        val insertShallowManyTo1WithBackReferences: BatchInsertStatement.(SimpleEntityDto) -> Unit = {
+            FillerSimpleEntityTable.batchInsertShallowAnd1To1sLambda().invoke(this, it)
+            // if so: this[SimpleOtherManyTo1Table.simpleOtherManyTo1PropertyUuid] = simpleOtherManyTo1PropertyUuid.uuid
+            // TODO add some callback to put further things in ManyTo1 instances
+            // e.g. this[SimpleSubentityTable.subEntityDtoSpecificProp] = outside.subEntityDtoSpecificProp
+        }
         SimpleEntityTable.batchInsert(sources, shouldReturnGeneratedValues = false,
-            body = FillerSimpleEntityTable.batchInsertWithout2ManysLambda()
+            body = insertShallowManyTo1WithBackReferences
         )
-        for (source in sources) {
-            SimpleSubentityTable.batchInsert(source.subentitys ?: emptyList(), shouldReturnGeneratedValues = false,
-                body = FillerSimpleSubentityTable.batchInsertWithout2ManysLambda(source)
-            )
+
+        // insert ManyTo1 Instances
+        for (entityDtoBackref in sources) {
+            CrudSimpleSubentityTableCREATE.batchInsert(entityDtoBackref.subentitys ?: emptyList(), entityDtoBackref)
+            //CrudSimpleOtherModelTableCREATE.batchInsert(entityDtoBackref.otherModels, entityDtoBackref)
         }
     }
 
-    // only if one2many of SimpleEntityDto is optional/nullable
+    // only if 1ToMany of SimpleEntityDto is optional/nullable or 1to1 instances already exist
     public fun shallowInsert(source: SimpleEntityDto) {
-        SimpleEntityTable.insert(FillerSimpleEntityTable.insertWithout2ManysLambda(source))
+        SimpleEntityTable.insert(FillerSimpleEntityTable.insertShallowAnd1To1sLambda(source))
         val i = 42
     }
 }

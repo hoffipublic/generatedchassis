@@ -7,6 +7,8 @@ import com.hoffi.generated.examples.table.entity.filler.FillerSimpleSubentityTab
 import com.hoffi.generated.universe.WasGenerated
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.statements.BatchInsertStatement
+import org.jetbrains.exposed.sql.statements.InsertStatement
 
 /**
  * CRUD CREATE for table model: Entity
@@ -14,20 +16,37 @@ import org.jetbrains.exposed.sql.insert
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 public object CrudSimpleSubentityTableCREATE : WasGenerated {
-    public fun insert(source: SimpleSubentityDto, simpleEntityDtoBackref: SimpleEntityDto) {
-        SimpleSubentityTable.insert(FillerSimpleSubentityTable.insertWithout2ManysLambda(source, simpleEntityDtoBackref))
-        // only if subEntity has 1toN props
+    public fun insert(source: SimpleSubentityDto,
+                      simpleEntitySubentitysBackref: SimpleEntityDto
+        //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
+    ) {
+        val insertShallowWith1To1s: SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
+            FillerSimpleSubentityTable.insertShallowAnd1To1sLambda(source).invoke(this, it)
+            it[SimpleSubentityTable.simpleEntitySubentitysUuid] = simpleEntitySubentitysBackref.uuid
+            // maybe further: it[SimpleSubentityTable.one2oneTypePropertyUuid] = one2oneTypeProperty.uuid
+            // TODO add some callback to put further things source
+            // e.g. it[SimpleEntityTable.someOtherModelUuid] = outside.someOtherModel.uuid
+        }
+        SimpleSubentityTable.insert(insertShallowWith1To1s)
 
+        // insert ManyTo1 Instances
+        // NONE
     }
-    // will break if non nullable FKs
-    public fun batchInsertShallow(sources: Collection<SimpleSubentityDto>) {
+
+    public fun batchInsert(sources: Collection<SimpleSubentityDto>,
+                           simpleEntitySubentitysBackref: SimpleEntityDto
+                      //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
+    ) {
+        val insertShallowManyTo1WithBackReferencesLambda: BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
+            FillerSimpleSubentityTable.batchInsertShallowAnd1To1sLambda().invoke(this, it)
+            this[SimpleSubentityTable.simpleEntitySubentitysUuid] = simpleEntitySubentitysBackref.uuid
+            // TODO add some callback to put further things in ManyTo1 instances
+            // e.g. this[SimpleSubentityTable.subEntityDtoSpecificProp] = outside.subEntityDtoSpecificProp
+        }
         SimpleSubentityTable.batchInsert(sources, shouldReturnGeneratedValues = false,
-            body = FillerSimpleSubentityTable.batchInsertWithout2ManysAndOutgoingFKsLambda()
+            body = insertShallowManyTo1WithBackReferencesLambda
         )
-    }
-    // only if one2many of SimpleEntityDto is optional/nullable
-    public fun shallowInsert(source: SimpleSubentityDto, simpleEntityDtoBackref: SimpleEntityDto) {
-        SimpleSubentityTable.insert(FillerSimpleSubentityTable.insertWithout2ManysLambda(source, simpleEntityDtoBackref))
-        val i = 42
+        // insert ManyTo1 Instances
+        // NONE
     }
 }
