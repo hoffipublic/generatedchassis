@@ -42,16 +42,18 @@ fun main(args: Array<String>) {
     //println("=====================================")
     var index = 0
     var index2 = 0
-    val simpleEntityDtoList: List<SimpleEntityDto> = Instancio.ofList(SimpleEntityDto::class.java).size(5)
+    val collSize = 5
+    val simpleEntityDtoList: List<SimpleEntityDto> = Instancio.ofList(SimpleEntityDto::class.java).size(collSize)
         .generate(KSelect.field(SimpleEntityDto::name)) { it.string().length(7) }
         .generate(KSelect.field(SimpleEntityDto::value)) { it.string().length(7) }
-        .generate(all(MutableSet::class.java)) { it.collection<SimpleSubentityDto>().size(5) }
-        .set(KSelect.field(SimpleEntityDto::prio), 1)
+        .generate(all(MutableSet::class.java)) { it.collection<SimpleSubentityDto>().size(collSize) }
         .onComplete<SimpleEntityDto>(all(SimpleEntityDto::class.java)) {
-            it.value = String.format("%03d_%s", ++index, it.value)
+            it.value = String.format("%04d_%s", ++index, it.value)
+            it.prio = index
         }
         .onComplete<SimpleSubentityDto>(all(SimpleSubentityDto::class.java)) {
-            it.value = String.format("sub%03d_%s", ++index2, it.value)
+            it.prio = 1000*((index2/collSize)+1)+index2+1
+            it.value = String.format("sub%04d_%s", ++index2, it.value)
         }
         .create()
     simpleEntityDtoList.forEach { it -> println(it.toString() + it.subentitys!!.joinToString(prefix = "\n  ", separator = "\n  ") { it.toString() }) }

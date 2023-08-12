@@ -2,7 +2,10 @@
 
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-if [[ $# -ge 0 && "$1" != 'restore' && "$1" != 'only' && "$1" != 'backup' ]]; then exit 1 ; fi
+if [[ $# -ge 0 && "$1" != 'restore' && "$1" != 'only' && "$1" != 'backup' && "$1" != 'check' ]]; then exit 1 ; fi
+
+# just recursive diff files and contents, then exit
+if [[ $# -ge 0 && "$1" == 'check' ]]; then diff --brief --recursive "$SCRIPTDIR/src" "$SCRIPTDIR/backup/src" ; exit $? ; fi
 
 # on restore, radical clean src (including e.g. universe) and restore backup to src, then exit
 if [[ $# -ge 0 && "$1" == 'restore' ]]; then
