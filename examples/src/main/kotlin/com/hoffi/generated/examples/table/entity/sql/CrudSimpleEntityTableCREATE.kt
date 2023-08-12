@@ -21,7 +21,7 @@ public object CrudSimpleEntityTableCREATE : WasGenerated {
     ) {
         // shallow insert SimpleEntityDto with 1To1's and our outgoing 1To1 FKs
         val insertShallowWith1To1s: SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
-            FillerSimpleEntityTable.insertShallowAnd1To1sLambda(source).invoke(this, it)
+            FillerSimpleEntityTable.insertShallowWith1To1sLambda(source).invoke(this, it)
             // TODO add some callback to put further things source
             // e.g. it[SimpleEntityTable.someOtherModelUuid] = outside.someOtherModel.uuid
         }
@@ -35,7 +35,7 @@ public object CrudSimpleEntityTableCREATE : WasGenerated {
         //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
     ) {
         val insertShallowManyTo1WithBackReferences: BatchInsertStatement.(SimpleEntityDto) -> Unit = {
-            FillerSimpleEntityTable.batchInsertShallowAnd1To1sLambda().invoke(this, it)
+            FillerSimpleEntityTable.batchInsertShallowWith1To1sLambda().invoke(this, it)
             // if so: this[SimpleOtherManyTo1Table.simpleOtherManyTo1PropertyUuid] = simpleOtherManyTo1PropertyUuid.uuid
             // TODO add some callback to put further things in ManyTo1 instances
             // e.g. this[SimpleSubentityTable.subEntityDtoSpecificProp] = outside.subEntityDtoSpecificProp
@@ -53,7 +53,7 @@ public object CrudSimpleEntityTableCREATE : WasGenerated {
 
     // only if 1ToMany of SimpleEntityDto is optional/nullable or 1to1 instances already exist
     public fun shallowInsert(source: SimpleEntityDto) {
-        SimpleEntityTable.insert(FillerSimpleEntityTable.insertShallowAnd1To1sLambda(source))
+        SimpleEntityTable.insert(FillerSimpleEntityTable.insertShallowWith1To1sLambda(source))
         val i = 42
     }
 }

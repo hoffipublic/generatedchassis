@@ -17,7 +17,7 @@ import org.jetbrains.exposed.sql.statements.InsertStatement
 public object CrudSimpleSomeModelTableCREATE : WasGenerated {
     public fun insert(source: SimpleSomeModelDto) { //, simpleEntityDtoBackref: SimpleEntityDto) {
         val insertShallowWith1To1s: SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {
-            FillerSimpleSomeModelTable.insertShallowAnd1To1sLambda(source).invoke(this, it)
+            FillerSimpleSomeModelTable.insertShallowWith1To1sLambda(source).invoke(this, it)
             // maybe further: it[SimpleSubentityTable.one2oneTypePropertyUuid] = one2oneTypeProperty.uuid
             // TODO add some callback to put further things source
             // e.g. it[SimpleEntityTable.someOtherModelUuid] = outside.someOtherModel.uuid

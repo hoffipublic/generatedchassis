@@ -37,16 +37,27 @@ public object FillerSimpleEntityTable : WasGenerated {
     return target
   }
 
-  public fun insertShallowAnd1To1sLambda(source: SimpleEntityDto /*, noBackref: Dto */):
+  public fun insertShallowWith1To1sLambda(source: SimpleEntityDto /*, noBackref: Dto */):
       SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
     insert1to1ModelsLambda(source).invoke(this, it)
     insertShallowLambda(source).invoke(this, it)
+  }
+
+  public fun batchInsertShallowWith1To1sLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
+    batchInsert1to1ModelsLambda().invoke(this, it)
+    batchInsertShallowLambda().invoke(this, it) // 1to1 FKed row in dependant table has already to exist here!
   }
 
   public fun insert1to1ModelsLambda(source: SimpleEntityDto): SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
     // TODO one2One check if dependant model Table Entry already exists!
     CrudSimpleSomeModelTableCREATE.insert(source.someModelObject /* , backRef1: SomeDto, backRef2: SomeOtherDto */)
     it[SimpleEntityTable.someModelObjectUuid] = source.someModelObject.uuid
+  }
+
+  public fun batchInsert1to1ModelsLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
+    // TODO one2One check if dependant model Table Entry already exists!
+    FillerSimpleSomeModelTable.batchInsertShallowAnd1To1sLambda().invoke(this, it.someModelObject)
+    this[SimpleEntityTable.someModelObjectUuid] = it.someModelObject.uuid
   }
 
   public fun insertShallowLambda(source: SimpleEntityDto):
@@ -63,17 +74,6 @@ public object FillerSimpleEntityTable : WasGenerated {
     it[SimpleEntityTable.updatedAt] = source.updatedAt
     it[SimpleEntityTable.createUser] = source.createUser
     it[SimpleEntityTable.updateUser] = source.updateUser
-  }
-
-  public fun batchInsertShallowAnd1To1sLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
-    batchInsert1to1ModelsLambda().invoke(this, it)
-    batchInsertShallowLambda().invoke(this, it) // 1to1 FKed row in dependant table has already to exist here!
-  }
-
-  public fun batchInsert1to1ModelsLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {
-    // TODO one2One check if dependant model Table Entry already exists!
-    FillerSimpleSomeModelTable.batchInsertShallowAnd1To1sLambda().invoke(this, it.someModelObject)
-    this[SimpleEntityTable.someModelObjectUuid] = it.someModelObject.uuid
   }
 
   public fun batchInsertShallowLambda(): BatchInsertStatement.(SimpleEntityDto) -> Unit = {

@@ -21,7 +21,7 @@ public object CrudSimpleSubentityTableCREATE : WasGenerated {
         //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
     ) {
         val insertShallowWith1To1s: SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
-            FillerSimpleSubentityTable.insertShallowAnd1To1sLambda(source).invoke(this, it)
+            FillerSimpleSubentityTable.insertShallowWith1To1sLambda(source).invoke(this, it)
             it[SimpleSubentityTable.simpleEntitySubentitysUuid] = simpleEntitySubentitysBackref.uuid
             // maybe further: it[SimpleSubentityTable.one2oneTypePropertyUuid] = one2oneTypeProperty.uuid
             // TODO add some callback to put further things source
@@ -38,7 +38,7 @@ public object CrudSimpleSubentityTableCREATE : WasGenerated {
                       //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
     ) {
         val insertShallowManyTo1WithBackReferencesLambda: BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
-            FillerSimpleSubentityTable.batchInsertShallowAnd1To1sLambda().invoke(this, it)
+            FillerSimpleSubentityTable.batchInsertShallowWith1To1sLambda().invoke(this, it)
             this[SimpleSubentityTable.simpleEntitySubentitysUuid] = simpleEntitySubentitysBackref.uuid
             // TODO add some callback to put further things in ManyTo1 instances
             // e.g. this[SimpleSubentityTable.subEntityDtoSpecificProp] = outside.subEntityDtoSpecificProp

@@ -14,16 +14,26 @@ import java.util.*
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 public object FillerSimpleSubentityTable : WasGenerated {
-  public fun insertShallowAnd1To1sLambda(source: SimpleSubentityDto):
+  public fun insertShallowWith1To1sLambda(source: SimpleSubentityDto):
       SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
     insert1to1ModelsLambda(source).invoke(this, it)
     insertShallowLambda(source).invoke(this, it) // 1to1 FKed row in dependant table has already to exist here!
+  }
+
+  public fun batchInsertShallowWith1To1sLambda():
+          BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
+    batchInsert1to1ModelsLambda().invoke(this, it)
+    batchInsertShallowLambda().invoke(this, it)
   }
 
   public fun insert1to1ModelsLambda(source: SimpleSubentityDto):
       SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
     // NONE
     // would call CrudSimpleXXTableCREATE.insert(source.xxx /* , backRef1: SomeDto, backRef2: SomeOtherDto */)
+  }
+
+  public fun batchInsert1to1ModelsLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
+    // NONE
   }
 
   public fun insertShallowLambda(source: SimpleSubentityDto):
@@ -39,16 +49,6 @@ public object FillerSimpleSubentityTable : WasGenerated {
     it[SimpleSubentityTable.updatedAt] = source.updatedAt
     it[SimpleSubentityTable.createUser] = source.createUser
     it[SimpleSubentityTable.updateUser] = source.updateUser
-  }
-
-  public fun batchInsertShallowAnd1To1sLambda():
-      BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
-    batchInsert1to1ModelsLambda().invoke(this, it)
-    batchInsertShallowLambda().invoke(this, it)
-  }
-
-  public fun batchInsert1to1ModelsLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
-    // NONE
   }
 
   public fun batchInsertShallowLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit = {

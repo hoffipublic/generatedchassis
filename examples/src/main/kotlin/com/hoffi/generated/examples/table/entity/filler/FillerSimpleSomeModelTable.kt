@@ -26,10 +26,15 @@ public object FillerSimpleSomeModelTable : WasGenerated {
     return target
   }
 
-  public fun insertShallowAnd1To1sLambda(source: SimpleSomeModelDto):
+  public fun insertShallowWith1To1sLambda(source: SimpleSomeModelDto):
       SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {
     insert1to1ModelsLambda(source).invoke(this, it)
     insertShallowLambda(source).invoke(this, it)
+  }
+
+  public fun batchInsertShallowAnd1To1sLambda(): BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {
+    batchInsert1to1ModelsLambda().invoke(this, it)
+    batchInsertShallowLambda().invoke(this, it)
   }
 
   public fun insert1to1ModelsLambda(source: SimpleSomeModelDto):
@@ -38,8 +43,7 @@ public object FillerSimpleSomeModelTable : WasGenerated {
     // would call CrudSimpleXXTableCREATE.insert(source.xxx /* , backRef1: SomeDto, backRef2: SomeOtherDto */)
   }
 
-  public fun insert2ManyModelsLambda(source: SimpleSomeModelDto):
-      SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {
+  public fun batchInsert1to1ModelsLambda(): BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {
     // NONE
   }
 
@@ -53,16 +57,6 @@ public object FillerSimpleSomeModelTable : WasGenerated {
     it[SimpleSomeModelTable.updatedAt] = source.updatedAt
     it[SimpleSomeModelTable.createUser] = source.createUser
     it[SimpleSomeModelTable.updateUser] = source.updateUser
-  }
-
-  public fun batchInsertShallowAnd1To1sLambda(): BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {
-    batchInsert1to1ModelsLambda().invoke(this, it)
-    batchInsertShallowLambda().invoke(this, it)
-  }
-
-
-  public fun batchInsert1to1ModelsLambda(): BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {
-    // NONE
   }
 
   public fun batchInsertShallowLambda(): BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {
@@ -80,7 +74,6 @@ public object FillerSimpleSomeModelTable : WasGenerated {
       SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {
     insertShallowLambda(source).invoke(this, it)
     insert1to1ModelsLambda(source).invoke(this, it)
-    insert2ManyModelsLambda(source).invoke(this, it)
   }
 
   public fun withoutModelsInsertOutgoingFKsLambda(source: SimpleSomeModelDto):
