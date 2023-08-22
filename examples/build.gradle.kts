@@ -4,7 +4,7 @@ val versionKotlinxSerializationJson = "1.5.1"
 val versionExposed = "0.41.1"
 
 plugins {
-    kotlin("jvm") version "1.8.22"
+    kotlin("jvm") version "1.9.0"
 }
 
 dependencies {
@@ -20,3 +20,12 @@ repositories {
     google()
 }
 
+tasks {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            //Will retain parameter names for Java reflection
+            javaParameters = true
+            kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
+        }
+    }
+}

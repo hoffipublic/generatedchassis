@@ -32,7 +32,7 @@ public object CrudSimpleSomeModelTableCREATE : WasGenerated {
         //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
     ) {
         val insertShallowManyTo1WithBackReferences: BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {
-            FillerSimpleSomeModelTable.batchInsertShallowAnd1To1sLambda().invoke(this, it)
+            FillerSimpleSomeModelTable.batchInsertShallowWith1To1sLambda().invoke(this, it)
             // if so: this[SimpleOtherManyTo1Table.simpleOtherManyTo1PropertyUuid] = simpleOtherManyTo1PropertyUuid.uuid
             // TODO add some callback to put further things in ManyTo1 instances
             // e.g. this[SimpleSubentityTable.subEntityDtoSpecificProp] = outside.subEntityDtoSpecificProp

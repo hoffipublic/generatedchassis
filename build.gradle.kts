@@ -7,7 +7,7 @@ val versionPostgres = "42.6.0"
 val versionSlf4j = "2.0.7"
 
 plugins {
-    kotlin("jvm") version "1.8.22"
+    kotlin("jvm") version "1.9.0"
 }
 
 dependencies {
@@ -31,5 +31,15 @@ dependencies {
 repositories {
     mavenCentral()
     google()
+}
+
+tasks {
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+        kotlinOptions {
+            //Will retain parameter names for Java reflection
+            javaParameters = true
+            kotlinOptions.freeCompilerArgs = listOf("-Xcontext-receivers")
+        }
+    }
 }
 
