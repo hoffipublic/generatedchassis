@@ -8,6 +8,8 @@ import com.hoffi.generated.examples.table.entity.SimpleSubentityTable
 import com.hoffi.generated.examples.table.entity.sql.CrudSimpleEntityTableCREATE
 import com.hoffi.generated.examples.table.entity.sql.CrudSimpleEntityTableREAD
 import com.hoffi.generated.universe.UuidTable
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import org.instancio.Instancio
 import org.instancio.Select
 import org.instancio.Select.all
@@ -18,6 +20,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import kotlin.reflect.KProperty1
 import kotlin.reflect.jvm.javaField
 
+
 fun main(args: Array<String>) {
     val simpleEntityDtoList: List<SimpleEntityDto> = instancioFakeSimpleEntityDtos()
     MainGenerated().doIt(simpleEntityDtoList)
@@ -25,8 +28,21 @@ fun main(args: Array<String>) {
 
 class MainGenerated {
     fun doIt(simpleEntityDtoList: List<SimpleEntityDto>) {
-        val dbConnect = Database.connect("jdbc:postgresql://localhost:5432/chassis?reWriteBatchedInserts=true", driver = "org.postgresql.Driver", user = "chassis")
-        //val dbConnect = Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
+        val config = HikariConfig().apply {
+            jdbcUrl = "jdbc:postgresql://localhost:5432/chassis"
+            username = "chassis"
+            //password = "database_password"
+            addDataSourceProperty("rewriteBatchedInserts", true)
+            addDataSourceProperty("reWriteBatchedInserts", true)
+            addDataSourceProperty("cachePrepStmts", true)
+            addDataSourceProperty("prepStmtCacheSize", 250)
+            addDataSourceProperty("prepStmtCacheSqlLimit", 2048)
+        }
+        val dbConnect by lazy {
+            Database.connect(HikariDataSource(config))
+            //Database.connect("jdbc:postgresql://localhost:5432/chassis?reWriteBatchedInserts=true", driver = "org.postgresql.Driver", user = "chassis")
+            //Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
+        }
         TransactionManager.managerFor(dbConnect)?.defaultRepetitionAttempts = 0
 
         val allTables = listOf(
@@ -40,14 +56,29 @@ class MainGenerated {
         wipeTables(allTables)
 
         println()
-        println("insert some entities with subentitys and 1To1 SomeModel:")
-        println("========================================================")
+        println("normal insert some entities with subentitys and 1To1 SomeModel:")
+        println("===============================================================")
         transaction {
             addLogger(StdOutSqlLogger)
-            //CrudSimpleEntityTableCREATE.batchInsertDb(simpleEntityDtoList)
             for(dto in simpleEntityDtoList) {
                 CrudSimpleEntityTableCREATE.insertDb(dto)
             }
+        }
+
+        println()
+        wipeTables(allTables)
+
+        println()
+        println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+        println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+        println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+
+        println()
+        println("batchInsert some entities with subentitys and 1To1 SomeModel:")
+        println("=============================================================")
+        transaction {
+            addLogger(StdOutSqlLogger)
+            CrudSimpleEntityTableCREATE.batchInsertDb(simpleEntityDtoList)
         }
 
         println()
