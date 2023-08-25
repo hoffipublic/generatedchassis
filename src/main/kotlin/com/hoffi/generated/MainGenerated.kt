@@ -4,6 +4,7 @@ import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
 import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
 import com.hoffi.generated.examples.table.entity.SimpleEntityTable
 import com.hoffi.generated.examples.table.entity.SimpleSomeModelTable
+import com.hoffi.generated.examples.table.entity.SimpleSomeOtherTable
 import com.hoffi.generated.examples.table.entity.SimpleSubentityTable
 import com.hoffi.generated.examples.table.entity.sql.CrudSimpleEntityTableCREATE
 import com.hoffi.generated.examples.table.entity.sql.CrudSimpleEntityTableREAD
@@ -46,6 +47,7 @@ class MainGenerated {
         TransactionManager.managerFor(dbConnect)?.defaultRepetitionAttempts = 0
 
         val allTables = listOf(
+            SimpleSomeOtherTable,
             SimpleSomeModelTable,
             SimpleEntityTable,
             SimpleSubentityTable,
@@ -289,7 +291,12 @@ private fun instancioFakeSimpleEntityDtos(): List<SimpleEntityDto> {
             it.value = String.format("sub%04d_%s", ++index2, it.value)
         }
         .create()
-    simpleEntityDtoList.forEach { it -> println(it.toString() + it.subentitys!!.joinToString(prefix = "\n  ", separator = "\n  ") { it.toString() }) }
+    println("generating some fake SimpleEntityDto's:")
+    println("=======================================")
+    simpleEntityDtoList.forEach {
+        println(it.toString() +
+            "\n  - ${it.someModelObject}"+
+            it.subentitys!!.joinToString(prefix = "\n  ", separator = "\n  ") { it.toString() }) }
     return simpleEntityDtoList
 }
 //endregion fold global helper stuff ...

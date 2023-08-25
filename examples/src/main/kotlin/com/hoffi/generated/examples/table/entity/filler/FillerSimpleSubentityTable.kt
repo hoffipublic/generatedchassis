@@ -3,8 +3,6 @@ package com.hoffi.generated.examples.table.entity.filler
 import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
 import com.hoffi.generated.examples.table.entity.SimpleSubentityTable
 import com.hoffi.generated.universe.WasGenerated
-import kotlin.Number
-import kotlin.Unit
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import org.jetbrains.exposed.sql.statements.InsertStatement
@@ -47,28 +45,16 @@ public object FillerSimpleSubentityTable : WasGenerated {
     return target
   }
 
-  public fun insertShallowWith1To1sLambda(source: SimpleSubentityDto):
-      SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
-    insert1to1ModelsLambda(source).invoke(this, it)
-    insertShallowLambda(source).invoke(this, it)
-  }
-
-  public fun batchInsertShallowWith1To1sLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit
-      = {
-    batchInsert1to1ModelsLambda().invoke(this, it)
-    batchInsertShallowLambda().invoke(this, it)
-  }
-
-  public fun insert1to1ModelsLambda(source: SimpleSubentityDto):
+  public fun fill1to1ModelsLambda(source: SimpleSubentityDto):
       SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
     // NONE
   }
 
-  public fun batchInsert1to1ModelsLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
+  public fun batchFill1to1ModelsLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
     // NONE
   }
 
-  public fun insertShallowLambda(source: SimpleSubentityDto):
+  public fun fillShallowLambda(source: SimpleSubentityDto):
       SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
     it[SimpleSubentityTable.name] = source.name
     it[SimpleSubentityTable.value] = source.value
@@ -83,7 +69,7 @@ public object FillerSimpleSubentityTable : WasGenerated {
     it[SimpleSubentityTable.updateUser] = source.updateUser
   }
 
-  public fun batchInsertShallowLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
+  public fun batchFillShallowLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
     this[SimpleSubentityTable.name] = it.name
     this[SimpleSubentityTable.value] = it.value
     this[SimpleSubentityTable.prio] = it.prio

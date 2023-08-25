@@ -10,37 +10,55 @@ import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import org.jetbrains.exposed.sql.statements.InsertStatement
 
 /**
- * CRUD CREATE for table model: Entity
- * with dslRef: disc:simpleEntities|modelgroup:Entitygroup|model:Entity|table
+ * CRUD CREATE for table model: SomeModel
+ * with dslRef: disc:simpleEntities|modelgroup:Entitygroup|model:SomeModel|table
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 public object CrudSimpleSomeModelTableCREATE : WasGenerated {
-    public fun insert(source: SimpleSomeModelDto) { //, simpleEntityDtoBackref: SimpleEntityDto) {
-        val insertShallowWith1To1s: SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {
-            FillerSimpleSomeModelTable.insertShallowWith1To1sLambda(source).invoke(this, it)
-            // maybe further: it[SimpleSubentityTable.one2oneTypePropertyUuid] = one2oneTypeProperty.uuid
-            // TODO add some callback to put further things source
-            // e.g. it[SimpleEntityTable.someOtherModelUuid] = outside.someOtherModel.uuid
-        }
-        SimpleSomeModelTable.insert(insertShallowWith1To1s)
+  public fun insertDb(source: SimpleSomeModelDto,
+      customStatements: SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {}) {
+      // insert SimpleomeModelSTable with 1To1's
+      // NONE
+      // insert SimpleSomeModelTable and 1To1 forwardRefs
+      SimpleSomeModelTable.insert {
+          FillerSimpleSomeModelTable.fillShallowLambda(source).invoke(this, it)
+          // foreach 1To1 forwardRef
+          // None
+          // foreach Many2One backwardRef
+          // NONE
+          // customStatements
+          customStatements.invoke(this, it)
+      }
+      // insert ManyTo1 Instances
+      // NONE
+  }
 
-        // insert ManyTo1 Instances
+    public fun batchInsertDbForOne(
+        sources: Collection<SimpleSomeModelDto>,
+        customStatements: BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {},
+    ) {
+        // insert 1To1 Models
+        // NONE
+        // batch insert SimpleSomeModelDtos with 1To1 forwardRefs
+        SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
+            FillerSimpleSomeModelTable.batchFillShallowLambda().invoke(this, it)
+            customStatements(it)
+        }
+        // batch insert Many2Ones
         // NONE
     }
-
-    public fun batchInsert(sources: Collection<SimpleSomeModelDto>
-        //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
+    public fun batchInsertDb(
+        sources: Collection<SimpleSomeModelDto>,
+        customStatements: BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {},
     ) {
-        val insertShallowManyTo1WithBackReferences: BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {
-            FillerSimpleSomeModelTable.batchInsertShallowWith1To1sLambda().invoke(this, it)
-            // if so: this[SimpleOtherManyTo1Table.simpleOtherManyTo1PropertyUuid] = simpleOtherManyTo1PropertyUuid.uuid
-            // TODO add some callback to put further things in ManyTo1 instances
-            // e.g. this[SimpleSubentityTable.subEntityDtoSpecificProp] = outside.subEntityDtoSpecificProp
+        // insert 1To1 Models
+        // NONE
+        // batch insert SimpleSomeModelDtos with 1To1 forwardRefs
+        SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
+            FillerSimpleSomeModelTable.batchFillShallowLambda().invoke(this, it)
+            customStatements(it)
         }
-        SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues = false,
-            body = insertShallowManyTo1WithBackReferences
-        )
-        // insert ManyTo1 Instances
+        // batch insert Many2Ones
         // NONE
     }
 }
