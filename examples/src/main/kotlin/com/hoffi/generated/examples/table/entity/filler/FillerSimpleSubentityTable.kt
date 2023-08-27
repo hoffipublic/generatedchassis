@@ -3,6 +3,8 @@ package com.hoffi.generated.examples.table.entity.filler
 import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
 import com.hoffi.generated.examples.table.entity.SimpleSubentityTable
 import com.hoffi.generated.universe.WasGenerated
+import kotlin.Number
+import kotlin.Unit
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import org.jetbrains.exposed.sql.statements.InsertStatement
@@ -45,15 +47,6 @@ public object FillerSimpleSubentityTable : WasGenerated {
     return target
   }
 
-  public fun fill1to1ModelsLambda(source: SimpleSubentityDto):
-      SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
-    // NONE
-  }
-
-  public fun batchFill1to1ModelsLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
-    // NONE
-  }
-
   public fun fillShallowLambda(source: SimpleSubentityDto):
       SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
     it[SimpleSubentityTable.name] = source.name
@@ -83,29 +76,7 @@ public object FillerSimpleSubentityTable : WasGenerated {
     this[SimpleSubentityTable.updateUser] = it.updateUser
   }
 
-  public fun somePrefixInsertShallowWith1To1sLambda(source: SimpleSubentityDto):
-      SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
-    somePrefixInsert1to1ModelsLambda(source).invoke(this, it)
-    somePrefixInsertShallowLambda(source).invoke(this, it)
-  }
-
-  public fun somePrefixBatchInsertShallowWith1To1sLambda():
-      BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
-    somePrefixBatchInsert1to1ModelsLambda().invoke(this, it)
-    somePrefixBatchInsertShallowLambda().invoke(this, it)
-  }
-
-  public fun somePrefixInsert1to1ModelsLambda(source: SimpleSubentityDto):
-      SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
-    // NONE
-  }
-
-  public fun somePrefixBatchInsert1to1ModelsLambda():
-      BatchInsertStatement.(SimpleSubentityDto) -> Unit = {
-    // NONE
-  }
-
-  public fun somePrefixInsertShallowLambda(source: SimpleSubentityDto):
+  public fun somePrefixFillShallowLambda(source: SimpleSubentityDto):
       SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
     it[SimpleSubentityTable.name] = source.name
     it[SimpleSubentityTable.value] = source.value
@@ -120,8 +91,8 @@ public object FillerSimpleSubentityTable : WasGenerated {
     it[SimpleSubentityTable.updateUser] = source.updateUser
   }
 
-  public fun somePrefixBatchInsertShallowLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit
-      = {
+  public fun somePrefixBatchFillShallowLambda(): BatchInsertStatement.(SimpleSubentityDto) -> Unit =
+      {
     this[SimpleSubentityTable.name] = it.name
     this[SimpleSubentityTable.value] = it.value
     this[SimpleSubentityTable.prio] = it.prio

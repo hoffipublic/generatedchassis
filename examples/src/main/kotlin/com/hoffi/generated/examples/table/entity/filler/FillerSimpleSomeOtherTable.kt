@@ -3,6 +3,8 @@ package com.hoffi.generated.examples.table.entity.filler
 import com.hoffi.generated.examples.dto.entity.SimpleSomeOtherDto
 import com.hoffi.generated.examples.table.entity.SimpleSomeOtherTable
 import com.hoffi.generated.universe.WasGenerated
+import kotlin.Number
+import kotlin.Unit
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import org.jetbrains.exposed.sql.statements.InsertStatement
@@ -26,16 +28,7 @@ public object FillerSimpleSomeOtherTable : WasGenerated {
     return target
   }
 
-  public fun insert1to1ModelsLambda(source: SimpleSomeOtherDto):
-      SimpleSomeOtherTable.(InsertStatement<Number>) -> Unit = {
-    // NONE
-  }
-
-  public fun batchInsert1to1ModelsLambda(): BatchInsertStatement.(SimpleSomeOtherDto) -> Unit = {
-    // NONE
-  }
-
-  public fun insertShallowLambda(source: SimpleSomeOtherDto):
+  public fun fillShallowLambda(source: SimpleSomeOtherDto):
       SimpleSomeOtherTable.(InsertStatement<Number>) -> Unit = {
     it[SimpleSomeOtherTable.someName] = source.someName
     it[SimpleSomeOtherTable.someValue] = source.someValue
@@ -47,7 +40,7 @@ public object FillerSimpleSomeOtherTable : WasGenerated {
     it[SimpleSomeOtherTable.updateUser] = source.updateUser
   }
 
-  public fun batchInsertShallowLambda(): BatchInsertStatement.(SimpleSomeOtherDto) -> Unit = {
+  public fun batchFillShallowLambda(): BatchInsertStatement.(SimpleSomeOtherDto) -> Unit = {
     this[SimpleSomeOtherTable.someName] = it.someName
     this[SimpleSomeOtherTable.someValue] = it.someValue
     this[SimpleSomeOtherTable.optimisticLockId] = it.optimisticLockId

@@ -17,48 +17,67 @@ import org.jetbrains.exposed.sql.statements.InsertStatement
 public object CrudSimpleSomeModelTableCREATE : WasGenerated {
   public fun insertDb(source: SimpleSomeModelDto,
       customStatements: SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {}) {
-      // insert SimpleomeModelSTable with 1To1's
+    // NONE
+    // insert 1To1 Models
+    // NONE
+    // insertShallow SimpleSomeModelTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSomeModelTable.insert {
+      FillerSimpleSomeModelTable.fillShallowLambda(source).invoke(this, it)
+      // outgoing FK uuid refs
       // NONE
-      // insert SimpleSomeModelTable and 1To1 forwardRefs
-      SimpleSomeModelTable.insert {
-          FillerSimpleSomeModelTable.fillShallowLambda(source).invoke(this, it)
-          // foreach 1To1 forwardRef
-          // None
-          // foreach Many2One backwardRef
-          // NONE
-          // customStatements
-          customStatements.invoke(this, it)
-      }
-      // insert ManyTo1 Instances
-      // NONE
+      customStatements.invoke(this, it)
+    }
+    // insert ManyTo1 Instances
+    // NONE
   }
 
-    public fun batchInsertDbForOne(
-        sources: Collection<SimpleSomeModelDto>,
-        customStatements: BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {},
-    ) {
-        // insert 1To1 Models
-        // NONE
-        // batch insert SimpleSomeModelDtos with 1To1 forwardRefs
-        SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
-            FillerSimpleSomeModelTable.batchFillShallowLambda().invoke(this, it)
-            customStatements(it)
-        }
-        // batch insert Many2Ones
-        // NONE
+  public fun batchInsertDb(sources: Collection<SimpleSomeModelDto>,
+      customStatements: BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {}) {
+    // NONE
+    // insert 1To1 Models
+    // NONE
+    // batchInsertShallow SimpleSomeModelTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues
+        = false) {
+      FillerSimpleSomeModelTable.batchFillShallowLambda().invoke(this, it)
+      // outgoing FK uuid refs
+      // NONE
+      customStatements(it)
     }
-    public fun batchInsertDb(
-        sources: Collection<SimpleSomeModelDto>,
-        customStatements: BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {},
-    ) {
-        // insert 1To1 Models
-        // NONE
-        // batch insert SimpleSomeModelDtos with 1To1 forwardRefs
-        SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
-            FillerSimpleSomeModelTable.batchFillShallowLambda().invoke(this, it)
-            customStatements(it)
-        }
-        // batch insert Many2Ones
-        // NONE
+    // batchInsert ManyTo1 Instances
+    // NONE
+  }
+
+  public fun somePrefixInsertDb(source: SimpleSomeModelDto,
+      customStatements: SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {}) {
+    // NONE
+    // insert 1To1 Models
+    // NONE
+    // insertShallow SimpleSomeModelTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSomeModelTable.insert {
+      FillerSimpleSomeModelTable.somePrefixFillShallowLambda(source).invoke(this, it)
+      // outgoing FK uuid refs
+      // NONE
+      customStatements.invoke(this, it)
     }
+    // insert ManyTo1 Instances
+    // NONE
+  }
+
+  public fun somePrefixBatchInsertDb(sources: Collection<SimpleSomeModelDto>,
+      customStatements: BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {}) {
+    // NONE
+    // insert 1To1 Models
+    // NONE
+    // batchInsertShallow SimpleSomeModelTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues
+        = false) {
+      FillerSimpleSomeModelTable.somePrefixBatchFillShallowLambda().invoke(this, it)
+      // outgoing FK uuid refs
+      // NONE
+      customStatements(it)
+    }
+    // batchInsert ManyTo1 Instances
+    // NONE
+  }
 }

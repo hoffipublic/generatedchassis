@@ -17,17 +17,18 @@ import java.util.*
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 public object CrudSimpleSubentityTableCREATE : WasGenerated {
-  public fun insertDb(source: SimpleSubentityDto, subentitysSimpleEntity: SimpleEntityDto, customStatements: SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {}) {
-    // insert SimpleSubentityTable with 1To1's
+  public fun insertDb(
+    source: SimpleSubentityDto,
+    subentitysSimpleEntity: SimpleEntityDto,
+    customStatements: SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {},
+  ) {
+    // insert 1To1 Models
     // NONE
-    // insert SimpleSubentityTable and 1To1 forwardRefs
+    // insertShallow SimpleSubentityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
     SimpleSubentityTable.insert {
       FillerSimpleSubentityTable.fillShallowLambda(source).invoke(this, it)
-      // foreach 1To1 forwardRef
-      // None
-      // foreach Many2One backwardRef
+      // outgoing FK uuid refs
       it[SimpleSubentityTable.simpleEntitySubentitysUuid] = subentitysSimpleEntity.uuid
-      // customStatements
       customStatements.invoke(this, it)
     }
     // insert ManyTo1 Instances
@@ -41,14 +42,33 @@ public object CrudSimpleSubentityTableCREATE : WasGenerated {
   ) {
     // insert 1To1 Models
     // NONE
-    // batch insert SimpleSubentityDtos with 1To1 forwardRefs
-    SimpleSubentityTable.batchInsert(sources, shouldReturnGeneratedValues =
-        false) {
+    // batchInsertShallow SimpleSubentityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSubentityTable.batchInsert(sources, shouldReturnGeneratedValues
+        = false) {
       FillerSimpleSubentityTable.batchFillShallowLambda().invoke(this, it)
+      // outgoing FK uuid refs
       this[SimpleSubentityTable.simpleEntitySubentitysUuid] = subentitysUuidToParentUuid[it.uuid]!!
       customStatements(it)
     }
-    // batch insert Many2Ones
+    // batchInsert ManyTo1 Instances
+    // NONE
+  }
+
+  public fun somePrefixInsertDb(
+    source: SimpleSubentityDto,
+    subentitysSimpleEntity: SimpleEntityDto,
+    customStatements: SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {},
+  ) {
+    // insert 1To1 Models
+    // NONE
+    // insertShallow SimpleSubentityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSubentityTable.insert {
+      FillerSimpleSubentityTable.somePrefixFillShallowLambda(source).invoke(this, it)
+      // outgoing FK uuid refs
+      it[SimpleSubentityTable.simpleEntitySubentitysUuid] = subentitysSimpleEntity.uuid
+      customStatements.invoke(this, it)
+    }
+    // insert ManyTo1 Instances
     // NONE
   }
 }

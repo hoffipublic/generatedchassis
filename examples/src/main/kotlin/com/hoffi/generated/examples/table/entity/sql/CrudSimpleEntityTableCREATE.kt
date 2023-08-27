@@ -25,36 +25,29 @@ public object CrudSimpleEntityTableCREATE : WasGenerated {
       FillerSimpleEntityTable.fillShallowLambda(source).invoke(this, it)
       // outgoing FK uuid refs
       it[SimpleEntityTable.someModelObjectUuid] = source.someModelObject.uuid
-      // foreach Many2One backwardRef
-      // NONE
-      // customStatements
       customStatements.invoke(this, it)
     }
     // insert ManyTo1 Instances
     CrudSimpleSubentityTableCREATE.batchInsertDb(source.subentitys ?: emptyList(),
-        (source.subentitys ?: emptyList()).associate { it.uuid to source.uuid }) /* ,
-        otherBackref1, otherBackref2) */
-    // not yet implemented listOfStrings LIST of String
+        (source.subentitys ?: emptyList()).associate { it.uuid to source.uuid } /* , otherBackref1,
+        otherBackref2, ... */)
   }
 
   public fun batchInsertDb(sources: Collection<SimpleEntityDto>,
       customStatements: BatchInsertStatement.(SimpleEntityDto) -> Unit = {}) {
     // NONE
     // insert 1To1 Models
-    CrudSimpleSomeModelTableCREATE.batchInsertDb(sources.map { it.someModelObject })
+    val simpleEntityDtoToSomeModelObject = sources.associateWith { source -> source.someModelObject }
+    CrudSimpleSomeModelTableCREATE.batchInsertDb(simpleEntityDtoToSomeModelObject.values)
     // batchInsertShallow SimpleEntityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
-    SimpleEntityTable.batchInsert(sources, shouldReturnGeneratedValues =
-        false) {
+    SimpleEntityTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
       FillerSimpleEntityTable.batchFillShallowLambda().invoke(this, it)
-      this[SimpleEntityTable.someModelObjectUuid] = it.someModelObject.uuid
+      // outgoing FK uuid refs
+      this[SimpleEntityTable.someModelObjectUuid] = simpleEntityDtoToSomeModelObject[it]!!.uuid
       customStatements(it)
     }
-    // batch insert Many2Ones
-    //for (source in sources) {
-      CrudSimpleSubentityTableCREATE.batchInsertDb(sources.flatMap {it.subentitys ?: emptyList() },
-          sources.flatMap { source -> (source.subentitys ?: emptyList()).map { it.uuid to source.uuid } }.toMap())
-/* , otherBackref1, otherBackref2) */
-    //}
-    // not yet implemented listOfStrings LIST of String
+    // batchInsert ManyTo1 Instances
+    CrudSimpleSubentityTableCREATE.batchInsertDb(sources.flatMap { it.subentitys ?: emptyList() },
+        sources.flatMap { source -> source.subentitys!!.map { it.uuid to source.uuid } }.toMap())
   }
 }
