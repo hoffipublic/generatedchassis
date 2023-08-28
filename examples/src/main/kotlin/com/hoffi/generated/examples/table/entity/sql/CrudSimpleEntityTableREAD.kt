@@ -11,7 +11,6 @@ import com.hoffi.generated.examples.table.entity.filler.FillerSimpleSubentityTab
 import com.hoffi.generated.universe.WasGenerated
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.*
 
 /**
  * CRUD READ for table model: Entity
@@ -20,38 +19,39 @@ import java.util.*
  */
 public object CrudSimpleEntityTableREAD : WasGenerated {
     private fun unmarshallSimpleEntityDtos(resultRowList: List<ResultRow>): MutableList<SimpleEntityDto> {
-        val selectedEntityDtos = mutableListOf<SimpleEntityDto>()
-        // base Model
+        val readEntityDtos = mutableListOf<SimpleEntityDto>()
+        // base model NULL
         var currentSimpleEntityDto: SimpleEntityDto = SimpleEntityDto.NULL
-        // many2One Models
+        // many2One models NULL
         var currentSimpleSubentityDto: SimpleSubentityDto = SimpleSubentityDto.NULL
-        var someOtherMany2OneUuid: UUID = UUID.randomUUID()
+        // initial iteration
         val iter = resultRowList.iterator()
         if (iter.hasNext()) {
-            val firstRow = iter.next()
-            currentSimpleEntityDto = FillerSimpleEntityTable.simpleEntityDto(firstRow)
-            selectedEntityDtos.add(currentSimpleEntityDto)
+            val rr = iter.next()
+            currentSimpleEntityDto = FillerSimpleEntityTable.simpleEntityDto(rr)
+            readEntityDtos.add(currentSimpleEntityDto)
             // one2One Models
-            currentSimpleEntityDto.someModelObject = FillerSimpleSomeModelTable.simpleSomeModelDto(firstRow)
+            currentSimpleEntityDto.someModelObject = FillerSimpleSomeModelTable.simpleSomeModelDto(rr)
             // Many2One Models
-            currentSimpleEntityDto.subentitys?.add(FillerSimpleSubentityTable.simpleSubentityDto(firstRow))
+            currentSimpleEntityDto.subentitys?.add(FillerSimpleSubentityTable.simpleSubentityDto(rr))
         }
+        // remaining iterations
         while (iter.hasNext()) {
             val rr: ResultRow = iter.next()
-            // base Model
+            // base model
             if (rr[SimpleEntityTable.uuid] != currentSimpleEntityDto.uuid) {
                 currentSimpleEntityDto = FillerSimpleEntityTable.simpleEntityDto(rr)
-                selectedEntityDtos.add(currentSimpleEntityDto)
-                // one2One Models
+                readEntityDtos.add(currentSimpleEntityDto)
+                // one2One models
                 currentSimpleEntityDto.someModelObject = FillerSimpleSomeModelTable.simpleSomeModelDto(rr)
             }
-            // many2One Models
+            // many2One models
             if (rr[SimpleSubentityTable.uuid] != currentSimpleSubentityDto.uuid) {
                 currentSimpleSubentityDto = FillerSimpleSubentityTable.simpleSubentityDto(rr)
                 currentSimpleEntityDto.subentitys?.add(currentSimpleSubentityDto)
             }
         }
-        return selectedEntityDtos
+        return readEntityDtos
     }
 
     private fun simpleEntityTableJoinLambda(): ColumnSet {

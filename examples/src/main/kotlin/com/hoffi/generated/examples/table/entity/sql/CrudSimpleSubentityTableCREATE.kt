@@ -5,11 +5,15 @@ import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
 import com.hoffi.generated.examples.table.entity.SimpleSubentityTable
 import com.hoffi.generated.examples.table.entity.filler.FillerSimpleSubentityTable
 import com.hoffi.generated.universe.WasGenerated
+import java.util.UUID
+import kotlin.Number
+import kotlin.Unit
+import kotlin.collections.Collection
+import kotlin.collections.Map
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import org.jetbrains.exposed.sql.statements.InsertStatement
-import java.util.*
 
 /**
  * CRUD CREATE for table model: Subentity
@@ -43,8 +47,7 @@ public object CrudSimpleSubentityTableCREATE : WasGenerated {
     // insert 1To1 Models
     // NONE
     // batchInsertShallow SimpleSubentityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
-    SimpleSubentityTable.batchInsert(sources, shouldReturnGeneratedValues
-        = false) {
+    SimpleSubentityTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
       FillerSimpleSubentityTable.batchFillShallowLambda().invoke(this, it)
       // outgoing FK uuid refs
       this[SimpleSubentityTable.simpleEntitySubentitysUuid] = subentitysUuidToParentUuid[it.uuid]!!
@@ -69,6 +72,24 @@ public object CrudSimpleSubentityTableCREATE : WasGenerated {
       customStatements.invoke(this, it)
     }
     // insert ManyTo1 Instances
+    // NONE
+  }
+
+  public fun somePrefixBatchInsertDb(
+    sources: Collection<SimpleSubentityDto>,
+    subentitysUuidToParentUuid: Map<UUID, UUID>,
+    customStatements: BatchInsertStatement.(SimpleSubentityDto) -> Unit = {},
+  ) {
+    // insert 1To1 Models
+    // NONE
+    // batchInsertShallow SimpleSubentityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSubentityTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
+      FillerSimpleSubentityTable.somePrefixBatchFillShallowLambda().invoke(this, it)
+      // outgoing FK uuid refs
+      this[SimpleSubentityTable.simpleEntitySubentitysUuid] = subentitysUuidToParentUuid[it.uuid]!!
+      customStatements(it)
+    }
+    // batchInsert ManyTo1 Instances
     // NONE
   }
 }

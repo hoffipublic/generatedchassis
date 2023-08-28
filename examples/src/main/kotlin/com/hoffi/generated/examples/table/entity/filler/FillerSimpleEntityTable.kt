@@ -1,7 +1,6 @@
 package com.hoffi.generated.examples.table.entity.filler
 
 import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
-import com.hoffi.generated.examples.dto.entity.SimpleSomeModelDto
 import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
 import com.hoffi.generated.examples.table.entity.SimpleEntityTable
 import com.hoffi.generated.universe.WasGenerated
@@ -134,37 +133,6 @@ public object FillerSimpleEntityTable : WasGenerated {
     this[SimpleEntityTable.updatedAt] = it.updatedAt
     this[SimpleEntityTable.createUser] = it.createUser
     this[SimpleEntityTable.updateUser] = it.updateUser
-  }
-
-  public fun simpleSomeModelDtoFillShallowLambda(source: SimpleSomeModelDto):
-      SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
-    it[SimpleEntityTable.optimisticLockId] = source.optimisticLockId
-    it[SimpleEntityTable.uuid] = source.uuid
-    it[SimpleEntityTable.createdAt] = source.createdAt
-    it[SimpleEntityTable.updatedAt] = source.updatedAt
-    it[SimpleEntityTable.createUser] = source.createUser
-    it[SimpleEntityTable.updateUser] = source.updateUser
-  }
-
-  public fun simpleSomeModelDtoBatchFillShallowLambda():
-      BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {
-    this[SimpleEntityTable.optimisticLockId] = it.optimisticLockId
-    this[SimpleEntityTable.uuid] = it.uuid
-    this[SimpleEntityTable.createdAt] = it.createdAt
-    this[SimpleEntityTable.updatedAt] = it.updatedAt
-    this[SimpleEntityTable.createUser] = it.createUser
-    this[SimpleEntityTable.updateUser] = it.updateUser
-  }
-
-  public fun simpleSomeModelDto(resultRow: ResultRow): SimpleSomeModelDto {
-    val target = SimpleSomeModelDto._internal_create()
-    target.optimisticLockId = resultRow[SimpleEntityTable.optimisticLockId]
-    target.uuid = resultRow[SimpleEntityTable.uuid]
-    target.createdAt = resultRow[SimpleEntityTable.createdAt]
-    target.updatedAt = resultRow[SimpleEntityTable.updatedAt]
-    target.createUser = resultRow[SimpleEntityTable.createUser]
-    target.updateUser = resultRow[SimpleEntityTable.updateUser]
-    return target
   }
 
   public fun somePrefixSimpleEntityDto(resultRow: ResultRow): SimpleEntityDto {

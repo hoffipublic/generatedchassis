@@ -4,6 +4,9 @@ import com.hoffi.generated.examples.dto.entity.SimpleSomeModelDto
 import com.hoffi.generated.examples.table.entity.SimpleSomeModelTable
 import com.hoffi.generated.examples.table.entity.filler.FillerSimpleSomeModelTable
 import com.hoffi.generated.universe.WasGenerated
+import kotlin.Number
+import kotlin.Unit
+import kotlin.collections.Collection
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.statements.BatchInsertStatement
@@ -37,8 +40,7 @@ public object CrudSimpleSomeModelTableCREATE : WasGenerated {
     // insert 1To1 Models
     // NONE
     // batchInsertShallow SimpleSomeModelTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
-    SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues
-        = false) {
+    SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
       FillerSimpleSomeModelTable.batchFillShallowLambda().invoke(this, it)
       // outgoing FK uuid refs
       // NONE
@@ -70,8 +72,7 @@ public object CrudSimpleSomeModelTableCREATE : WasGenerated {
     // insert 1To1 Models
     // NONE
     // batchInsertShallow SimpleSomeModelTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
-    SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues
-        = false) {
+    SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
       FillerSimpleSomeModelTable.somePrefixBatchFillShallowLambda().invoke(this, it)
       // outgoing FK uuid refs
       // NONE
