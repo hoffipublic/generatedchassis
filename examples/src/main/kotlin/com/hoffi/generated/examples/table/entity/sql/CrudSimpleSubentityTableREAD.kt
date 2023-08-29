@@ -19,19 +19,8 @@ public object CrudSimpleSubentityTableREAD : WasGenerated {
     // base model NULL
     var currentSimpleSubentityDto: SimpleSubentityDto = SimpleSubentityDto.NULL
     // many2One models NULL
+    // NONE
     val iter = resultRowList.iterator()
-    // initial iteration
-    if (iter.hasNext()) {
-      val rr: ResultRow = iter.next()
-      // base model
-      currentSimpleSubentityDto = FillerSimpleSubentityTable.simpleSubentityDto(rr)
-      readSimpleSubentityDtos.add(currentSimpleSubentityDto)
-      // one2One models
-      // NONE
-      // many2One models
-      // NONE
-    }
-    // remaining iterations
     while (iter.hasNext()) {
       val rr: ResultRow = iter.next()
       if (rr[SimpleSubentityTable.uuid] != currentSimpleSubentityDto.uuid) {
@@ -53,19 +42,8 @@ public object CrudSimpleSubentityTableREAD : WasGenerated {
     // base model NULL
     var currentSimpleSubentityDto: SimpleSubentityDto = SimpleSubentityDto.NULL
     // many2One models NULL
+    // NONE
     val iter = resultRowList.iterator()
-    // initial iteration
-    if (iter.hasNext()) {
-      val rr: ResultRow = iter.next()
-      // base model
-      currentSimpleSubentityDto = FillerSimpleSubentityTable.simpleSubentityDto(rr)
-      readSimpleSubentityDtos.add(currentSimpleSubentityDto)
-      // one2One models
-      // NONE
-      // many2One models
-      // NONE
-    }
-    // remaining iterations
     while (iter.hasNext()) {
       val rr: ResultRow = iter.next()
       if (rr[SimpleSubentityTable.uuid] != currentSimpleSubentityDto.uuid) {
@@ -87,19 +65,8 @@ public object CrudSimpleSubentityTableREAD : WasGenerated {
     // base model NULL
     var currentSimpleSubentityDto: SimpleSubentityDto = SimpleSubentityDto.NULL
     // many2One models NULL
+    // NONE
     val iter = resultRowList.iterator()
-    // initial iteration
-    if (iter.hasNext()) {
-      val rr: ResultRow = iter.next()
-      // base model
-      currentSimpleSubentityDto = FillerSimpleSubentityTable.simpleSubentityDto(rr)
-      readSimpleSubentityDtos.add(currentSimpleSubentityDto)
-      // one2One models
-      // NONE
-      // many2One models
-      // NONE
-    }
-    // remaining iterations
     while (iter.hasNext()) {
       val rr: ResultRow = iter.next()
       if (rr[SimpleSubentityTable.uuid] != currentSimpleSubentityDto.uuid) {

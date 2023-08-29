@@ -19,19 +19,8 @@ public object CrudSimpleSomeModelTableREAD : WasGenerated {
     // base model NULL
     var currentSimpleSomeModelDto: SimpleSomeModelDto = SimpleSomeModelDto.NULL
     // many2One models NULL
+    // NONE
     val iter = resultRowList.iterator()
-    // initial iteration
-    if (iter.hasNext()) {
-      val rr: ResultRow = iter.next()
-      // base model
-      currentSimpleSomeModelDto = FillerSimpleSomeModelTable.simpleSomeModelDto(rr)
-      readSimpleSomeModelDtos.add(currentSimpleSomeModelDto)
-      // one2One models
-      // NONE
-      // many2One models
-      // NONE
-    }
-    // remaining iterations
     while (iter.hasNext()) {
       val rr: ResultRow = iter.next()
       if (rr[SimpleSomeModelTable.uuid] != currentSimpleSomeModelDto.uuid) {
@@ -53,19 +42,8 @@ public object CrudSimpleSomeModelTableREAD : WasGenerated {
     // base model NULL
     var currentSimpleSomeModelDto: SimpleSomeModelDto = SimpleSomeModelDto.NULL
     // many2One models NULL
+    // NONE
     val iter = resultRowList.iterator()
-    // initial iteration
-    if (iter.hasNext()) {
-      val rr: ResultRow = iter.next()
-      // base model
-      currentSimpleSomeModelDto = FillerSimpleSomeModelTable.simpleSomeModelDto(rr)
-      readSimpleSomeModelDtos.add(currentSimpleSomeModelDto)
-      // one2One models
-      // NONE
-      // many2One models
-      // NONE
-    }
-    // remaining iterations
     while (iter.hasNext()) {
       val rr: ResultRow = iter.next()
       if (rr[SimpleSomeModelTable.uuid] != currentSimpleSomeModelDto.uuid) {
