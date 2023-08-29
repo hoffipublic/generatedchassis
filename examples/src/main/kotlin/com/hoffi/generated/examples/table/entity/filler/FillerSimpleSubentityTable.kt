@@ -76,6 +76,22 @@ public object FillerSimpleSubentityTable : WasGenerated {
     this[SimpleSubentityTable.updateUser] = it.updateUser
   }
 
+  public fun somePrefixSimpleSubentityDto(resultRow: ResultRow): SimpleSubentityDto {
+    val target = SimpleSubentityDto._internal_create()
+    target.name = resultRow[SimpleSubentityTable.name]
+    target.value = resultRow[SimpleSubentityTable.value]
+    target.prio = resultRow[SimpleSubentityTable.prio]
+    target.aInstant = resultRow[SimpleSubentityTable.aInstant]
+    target.aLocalDateTime = resultRow[SimpleSubentityTable.aLocalDateTime]
+    target.subEntityDtoSpecificProp = resultRow[SimpleSubentityTable.subEntityDtoSpecificProp]
+    target.uuid = resultRow[SimpleSubentityTable.uuid]
+    target.createdAt = resultRow[SimpleSubentityTable.createdAt]
+    target.updatedAt = resultRow[SimpleSubentityTable.updatedAt]
+    target.createUser = resultRow[SimpleSubentityTable.createUser]
+    target.updateUser = resultRow[SimpleSubentityTable.updateUser]
+    return target
+  }
+
   public fun somePrefixFillShallowLambda(source: SimpleSubentityDto):
       SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {
     it[SimpleSubentityTable.name] = source.name

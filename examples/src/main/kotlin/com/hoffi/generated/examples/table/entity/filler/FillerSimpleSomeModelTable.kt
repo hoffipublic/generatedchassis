@@ -51,6 +51,19 @@ public object FillerSimpleSomeModelTable : WasGenerated {
     this[SimpleSomeModelTable.updateUser] = it.updateUser
   }
 
+  public fun somePrefixSimpleSomeModelDto(resultRow: ResultRow): SimpleSomeModelDto {
+    val target = SimpleSomeModelDto._internal_create()
+    target.someName = resultRow[SimpleSomeModelTable.someName]
+    target.someValue = resultRow[SimpleSomeModelTable.someValue]
+    target.optimisticLockId = resultRow[SimpleSomeModelTable.optimisticLockId]
+    target.uuid = resultRow[SimpleSomeModelTable.uuid]
+    target.createdAt = resultRow[SimpleSomeModelTable.createdAt]
+    target.updatedAt = resultRow[SimpleSomeModelTable.updatedAt]
+    target.createUser = resultRow[SimpleSomeModelTable.createUser]
+    target.updateUser = resultRow[SimpleSomeModelTable.updateUser]
+    return target
+  }
+
   public fun somePrefixFillShallowLambda(source: SimpleSomeModelDto):
       SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {
     it[SimpleSomeModelTable.someName] = source.someName
@@ -100,19 +113,6 @@ public object FillerSimpleSomeModelTable : WasGenerated {
   }
 
   public fun withoutModelsSimpleSomeModelDto(resultRow: ResultRow): SimpleSomeModelDto {
-    val target = SimpleSomeModelDto._internal_create()
-    target.someName = resultRow[SimpleSomeModelTable.someName]
-    target.someValue = resultRow[SimpleSomeModelTable.someValue]
-    target.optimisticLockId = resultRow[SimpleSomeModelTable.optimisticLockId]
-    target.uuid = resultRow[SimpleSomeModelTable.uuid]
-    target.createdAt = resultRow[SimpleSomeModelTable.createdAt]
-    target.updatedAt = resultRow[SimpleSomeModelTable.updatedAt]
-    target.createUser = resultRow[SimpleSomeModelTable.createUser]
-    target.updateUser = resultRow[SimpleSomeModelTable.updateUser]
-    return target
-  }
-
-  public fun somePrefixSimpleSomeModelDto(resultRow: ResultRow): SimpleSomeModelDto {
     val target = SimpleSomeModelDto._internal_create()
     target.someName = resultRow[SimpleSomeModelTable.someName]
     target.someValue = resultRow[SimpleSomeModelTable.someValue]
