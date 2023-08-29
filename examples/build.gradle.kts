@@ -1,7 +1,7 @@
-val versionKotlin = "1.9.0"
+val versionKotlin = "1.9.10"
 val versionKotlinxDatetime = "0.4.0"
-val versionKotlinxSerializationJson = "1.5.1"
-val versionExposed = "0.41.1"
+val versionKotlinxSerializationJson = "1.6.0"
+val versionExposed = "0.42.1"
 
 plugins {
     kotlin("jvm") version "1.9.0"
