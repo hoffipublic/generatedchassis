@@ -4,6 +4,9 @@ import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
 import com.hoffi.generated.examples.table.entity.SimpleEntityTable
 import com.hoffi.generated.examples.table.entity.filler.FillerSimpleEntityTable
 import com.hoffi.generated.universe.WasGenerated
+import kotlin.Number
+import kotlin.Unit
+import kotlin.collections.Collection
 import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.statements.BatchInsertStatement
@@ -15,45 +18,80 @@ import org.jetbrains.exposed.sql.statements.InsertStatement
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 public object CrudSimpleEntityTableCREATE : WasGenerated {
-    /* we'd also need all backref Instances of manyTo1 instances of our manyTo1 instances */
-    public fun insert(source: SimpleEntityDto
-        //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
-    ) {
-        // shallow insert SimpleEntityDto with 1To1's and our outgoing 1To1 FKs
-        val insertShallowWith1To1s: SimpleEntityTable.(InsertStatement<Number>) -> Unit = {
-            FillerSimpleEntityTable.insertShallowWith1To1sLambda(source).invoke(this, it)
-            // TODO add some callback to put further things source
-            // e.g. it[SimpleEntityTable.someOtherModelUuid] = outside.someOtherModel.uuid
-        }
-        SimpleEntityTable.insert(insertShallowWith1To1s)
-
-        // insert ManyTo1 Instances
-        CrudSimpleSubentityTableCREATE.batchInsert(source.subentitys ?: emptyList(), source) /* , otherBackref1, otherBackref2) */
+  public fun insertDb(source: SimpleEntityDto,
+      customStatements: SimpleEntityTable.(InsertStatement<Number>) -> Unit = {}) {
+    // NONE
+    // insert 1To1 Models
+    CrudSimpleSomeModelTableCREATE.insertDb(source.someModelObject)
+    // insertShallow SimpleEntityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleEntityTable.insert {
+      FillerSimpleEntityTable.fillShallowLambda(source).invoke(this, it)
+      // outgoing FK uuid refs
+      it[SimpleEntityTable.someModelObjectUuid] = source.someModelObject.uuid
+      customStatements.invoke(this, it)
     }
+    // insert ManyTo1 Instances
+    CrudSimpleSubentityTableCREATE.batchInsertDb(source.subentitys ?: emptyList(),
+        (source.subentitys ?: emptyList()).associate { it.uuid to source.uuid } /* , otherBackref1,
+        otherBackref2, ... */)
+  }
 
-    public fun batchInsert(sources: Collection<SimpleEntityDto>
-        //, simpleOtherSomeNullableBackref: SimpleWhateverDto? = null
-    ) {
-        val insertShallowManyTo1WithBackReferences: BatchInsertStatement.(SimpleEntityDto) -> Unit = {
-            FillerSimpleEntityTable.batchInsertShallowWith1To1sLambda().invoke(this, it)
-            // if so: this[SimpleOtherManyTo1Table.simpleOtherManyTo1PropertyUuid] = simpleOtherManyTo1PropertyUuid.uuid
-            // TODO add some callback to put further things in ManyTo1 instances
-            // e.g. this[SimpleSubentityTable.subEntityDtoSpecificProp] = outside.subEntityDtoSpecificProp
-        }
-        SimpleEntityTable.batchInsert(sources, shouldReturnGeneratedValues = false,
-            body = insertShallowManyTo1WithBackReferences
-        )
-
-        // insert ManyTo1 Instances
-        for (entityDtoBackref in sources) {
-            CrudSimpleSubentityTableCREATE.batchInsert(entityDtoBackref.subentitys ?: emptyList(), entityDtoBackref)
-            //CrudSimpleOtherModelTableCREATE.batchInsert(entityDtoBackref.otherModels, entityDtoBackref)
-        }
+  public fun batchInsertDb(sources: Collection<SimpleEntityDto>,
+      customStatements: BatchInsertStatement.(SimpleEntityDto) -> Unit = {}) {
+    // NONE
+    // insert 1To1 Models
+    val simpleEntityTableToSomeModelObject = sources.associateWith {
+      source -> source.someModelObject
     }
-
-    // only if 1ToMany of SimpleEntityDto is optional/nullable or 1to1 instances already exist
-    public fun shallowInsert(source: SimpleEntityDto) {
-        SimpleEntityTable.insert(FillerSimpleEntityTable.insertShallowWith1To1sLambda(source))
-        val i = 42
+    CrudSimpleSomeModelTableCREATE.batchInsertDb(simpleEntityTableToSomeModelObject.values)
+    // batchInsertShallow SimpleEntityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleEntityTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
+      FillerSimpleEntityTable.batchFillShallowLambda().invoke(this, it)
+      // outgoing FK uuid refs
+      this[SimpleEntityTable.someModelObjectUuid] = simpleEntityTableToSomeModelObject[it]!!.uuid
+      customStatements(it)
     }
+    // batchInsert ManyTo1 Instances
+    CrudSimpleSubentityTableCREATE.batchInsertDb(sources.flatMap { it.subentitys ?: emptyList() },
+        sources.flatMap { source -> source.subentitys!!.map { it.uuid to source.uuid } }.toMap())
+  }
+
+  public fun somePrefixInsertDb(source: SimpleEntityDto,
+      customStatements: SimpleEntityTable.(InsertStatement<Number>) -> Unit = {}) {
+    // NONE
+    // insert 1To1 Models
+    CrudSimpleSomeModelTableCREATE.somePrefixInsertDb(source.someModelObject)
+    // insertShallow SimpleEntityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleEntityTable.insert {
+      FillerSimpleEntityTable.somePrefixFillShallowLambda(source).invoke(this, it)
+      // outgoing FK uuid refs
+      it[SimpleEntityTable.someModelObjectUuid] = source.someModelObject.uuid
+      customStatements.invoke(this, it)
+    }
+    // insert ManyTo1 Instances
+    CrudSimpleSubentityTableCREATE.somePrefixBatchInsertDb(source.subentitys ?: emptyList(),
+        (source.subentitys ?: emptyList()).associate { it.uuid to source.uuid } /* , otherBackref1,
+        otherBackref2, ... */)
+  }
+
+  public fun somePrefixBatchInsertDb(sources: Collection<SimpleEntityDto>,
+      customStatements: BatchInsertStatement.(SimpleEntityDto) -> Unit = {}) {
+    // NONE
+    // insert 1To1 Models
+    val simpleEntityTableToSomeModelObject = sources.associateWith {
+      source -> source.someModelObject
+    }
+    CrudSimpleSomeModelTableCREATE.somePrefixBatchInsertDb(simpleEntityTableToSomeModelObject.values)
+    // batchInsertShallow SimpleEntityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleEntityTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
+      FillerSimpleEntityTable.somePrefixBatchFillShallowLambda().invoke(this, it)
+      // outgoing FK uuid refs
+      this[SimpleEntityTable.someModelObjectUuid] = simpleEntityTableToSomeModelObject[it]!!.uuid
+      customStatements(it)
+    }
+    // batchInsert ManyTo1 Instances
+    CrudSimpleSubentityTableCREATE.somePrefixBatchInsertDb(sources.flatMap { it.subentitys ?:
+        emptyList() }, sources.flatMap { source -> source.subentitys!!.map { it.uuid to source.uuid
+        } }.toMap())
+  }
 }

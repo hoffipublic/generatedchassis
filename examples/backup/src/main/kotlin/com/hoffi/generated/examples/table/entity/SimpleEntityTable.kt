@@ -5,12 +5,16 @@ import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
 import com.hoffi.generated.universe.TABLEsDTO
 import com.hoffi.generated.universe.UuidTable
 import com.hoffi.generated.universe.WasGenerated
+import java.util.UUID
+import kotlin.Any
+import kotlin.Int
+import kotlin.Long
+import kotlin.String
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
-import java.util.*
 
 /**
  * table model: Entity
@@ -33,7 +37,7 @@ public object SimpleEntityTable : UuidTable("simple_entity"), WasGenerated, ISim
   public val aLocalDateTime: Column<LocalDateTime> = datetime("a_local_date_time")
 
   public val someModelObjectUuid: Column<UUID> =
-      uuid("some_model_object_uuid").references(SimpleSomeModelTable.uuid) // really uniqueIndex (meaning no two Entitys can have the same SomeModel??
+      uuid("some_model_object_uuid").references(SimpleSomeModelTable.uuid)
 
   public val subentitys: Any? = mappedBy(SimpleSubentityTable::simpleEntitySubentitysUuid)
 

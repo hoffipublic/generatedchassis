@@ -6,12 +6,14 @@ import com.hoffi.generated.universe.FKFROM
 import com.hoffi.generated.universe.TABLEsDTO
 import com.hoffi.generated.universe.UuidTable
 import com.hoffi.generated.universe.WasGenerated
+import java.util.UUID
+import kotlin.Int
+import kotlin.String
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.sql.Column
 import org.jetbrains.exposed.sql.kotlin.datetime.datetime
 import org.jetbrains.exposed.sql.kotlin.datetime.timestamp
-import java.util.*
 
 /**
  * table model: Subentity
