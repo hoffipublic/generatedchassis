@@ -9,19 +9,7 @@ import com.hoffi.generated.examples.table.entity.filler.FillerSimpleEntityTable
 import com.hoffi.generated.examples.table.entity.filler.FillerSimpleSomeModelTable
 import com.hoffi.generated.examples.table.entity.filler.FillerSimpleSubentityTable
 import com.hoffi.generated.universe.WasGenerated
-import kotlin.Boolean
-import kotlin.collections.List
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.Join
-import org.jetbrains.exposed.sql.JoinType
-import org.jetbrains.exposed.sql.Op
-import org.jetbrains.exposed.sql.Query
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.SqlExpressionBuilder
-import org.jetbrains.exposed.sql.StdOutSqlLogger
-import org.jetbrains.exposed.sql.Transaction
-import org.jetbrains.exposed.sql.addLogger
-import org.jetbrains.exposed.sql.select
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 
 /**
@@ -47,6 +35,27 @@ public object CrudSimpleEntityTableREAD : WasGenerated {
     // execute query against DB
     val resultRowList: List<ResultRow> = query.toList()
     return resultRowList
+  }
+
+  context(Transaction)
+  public fun readBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
+      List<SimpleEntityDto> {
+    val query: Query = SimpleEntityTable.select(selectLambda)
+    // execute query against DB
+    val resultRowList: List<ResultRow> = query.toList()
+    val readSimpleEntityDtos: MutableList<SimpleEntityDto> = mutableListOf()
+    for (rr in resultRowList) {
+      val simpleEntityDto = FillerSimpleEntityTable.simpleEntityDto(rr)
+      // one2One models
+      val someModelDto = CrudSimpleSomeModelTableREAD.readBySelect { SimpleSomeModelTable.uuid eq rr[SimpleEntityTable.someModelObjectUuid] }.firstOrNull()
+      simpleEntityDto.someModelObject = someModelDto!!
+      // many2One models
+      val subentitys = CrudSimpleSubentityTableREAD.readBySelect { SimpleSubentityTable.simpleEntitySubentitysUuid eq rr[SimpleEntityTable.uuid] }
+      simpleEntityDto.subentitys?.addAll(subentitys)
+      // add
+      readSimpleEntityDtos.add(simpleEntityDto)
+    }
+    return readSimpleEntityDtos
   }
 
   context(Transaction)

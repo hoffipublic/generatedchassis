@@ -71,9 +71,9 @@ class MainGenerated {
         wipeTables(allTables)
 
         println()
-        println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
-        println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
-        println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+        println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+        println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
 
         println()
         println("batchInsert some entities with subentitys and 1To1 SomeModel:")
@@ -84,6 +84,9 @@ class MainGenerated {
         }
 
         println()
+        println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+        println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
+        println("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
         println("join query:")
         //region fold old manual select transaction ...
         //println("============================")
@@ -113,7 +116,7 @@ class MainGenerated {
         //        .toList()
         //}
         //endregion fold old manual select transaction ...
-        val selectedEntityDtos = transaction {
+        var selectedEntityDtos = transaction {
             addLogger(StdOutSqlLogger)
             CrudSimpleEntityTableREAD.readByJoin {
                 (SimpleEntityTable.prio lessEq 3)
@@ -146,6 +149,46 @@ class MainGenerated {
                 println("      DOES NOT CONTAIN subentitys !!!")
             }
         }
+
+        println()
+        println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+        println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+        println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ")
+        println("select query:")
+        selectedEntityDtos = transaction {
+            addLogger(StdOutSqlLogger)
+            CrudSimpleEntityTableREAD.readBySelect {
+                (SimpleEntityTable.prio lessEq 2)
+            }
+        }
+        //region fold empty-check
+        if (selectedEntityDtos.isEmpty()) {
+            println()
+            println("!!!!!!!!!! NOTHING SELECTED  !!!!!!!!!!")
+            println("!!!!!!!!!! NOTHING SELECTED  !!!!!!!!!!")
+            println("!!!!!!!!!! NOTHING SELECTED  !!!!!!!!!!")
+            println()
+        } else {
+            println("\nresultRowList.size = ${selectedEntityDtos.size}")
+        }
+        //endregion fold empty-check
+
+        // ========================================================
+        // ======    println selected Entitys                ======
+        // ========================================================
+        for ((i, dto) in selectedEntityDtos.withIndex()) {
+            println(String.format("%5d: %s", i+1, dto))
+            println(String.format("       %s", dto.someModelObject))
+            if (dto.subentitys!!.isNotEmpty()) println("       subentitys:")
+            if (dto.subentitys!!.isNotEmpty()) {
+                for ((ii, subdto) in dto.subentitys!!.withIndex()) {
+                    println(String.format("      %3d: %-10s -> %-18s (%s)", ii + 1, subdto.name, subdto.value, subdto.uuid))
+                }
+            } else {
+                println("      DOES NOT CONTAIN subentitys !!!")
+            }
+        }
+
     } // ---------------------------- main ----------------------------
 
     // utility functions

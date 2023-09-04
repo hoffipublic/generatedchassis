@@ -4,9 +4,6 @@ import com.hoffi.generated.examples.dto.entity.SimpleEntityDto
 import com.hoffi.generated.examples.dto.entity.SimpleSubentityDto
 import com.hoffi.generated.examples.table.entity.SimpleEntityTable
 import com.hoffi.generated.universe.WasGenerated
-import kotlin.Number
-import kotlin.String
-import kotlin.Unit
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.statements.BatchInsertStatement
 import org.jetbrains.exposed.sql.statements.InsertStatement
@@ -24,7 +21,7 @@ public object FillerSimpleEntityTable : WasGenerated {
     target.prio = resultRow[SimpleEntityTable.prio]
     target.aInstant = resultRow[SimpleEntityTable.aInstant]
     target.aLocalDateTime = resultRow[SimpleEntityTable.aLocalDateTime]
-    target.someModelObject = FillerSimpleSomeModelTable.simpleSomeModelDto(resultRow)
+    // XXX target.someModelObject = FillerSimpleSomeModelTable.simpleSomeModelDto(resultRow)
     // not yet implemented subentitys SET of SimpleSubentityDto
     // not yet implemented listOfStrings LIST of String
     target.dtoSpecificProp = resultRow[SimpleEntityTable.dtoSpecificProp]
