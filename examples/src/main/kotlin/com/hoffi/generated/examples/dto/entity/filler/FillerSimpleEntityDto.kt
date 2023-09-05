@@ -66,8 +66,8 @@ public object FillerSimpleEntityDto : WasGenerated {
     if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
     copyShallowIgnoreModelsInto(target, source)
     target.someModelObject = source.someModelObject
-    // target.subentitys.clear()
-    // target.subentitys.addAll(source.subentitys.toList())
+    target.subentitys?.clear()
+    target.subentitys?.addAll(source.subentitys?.toList() ?: emptyList())
     // target.listOfStrings.clear()
     // target.listOfStrings.addAll(source.listOfStrings)
     return target
@@ -181,8 +181,8 @@ public object FillerSimpleEntityDto : WasGenerated {
     if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
     withoutModelsCopyShallowIgnoreModelsInto(target, source)
     target.someModelObject = source.someModelObject
-    // target.subentitys.clear()
-    // target.subentitys.addAll(source.subentitys.toList())
+    target.subentitys?.clear()
+    target.subentitys?.addAll(source.subentitys?.toList() ?: emptyList())
     // target.listOfStrings.clear()
     // target.listOfStrings.addAll(source.listOfStrings)
     return target
