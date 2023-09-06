@@ -92,4 +92,40 @@ public object CrudSimpleSubentityTableCREATE : WasGenerated {
     // batchInsert ManyTo1 Instances
     // NONE
   }
+
+  public fun withoutModelsInsertDb(
+    source: SimpleSubentityDto,
+    subentitysSimpleEntity: SimpleEntityDto,
+    customStatements: SimpleSubentityTable.(InsertStatement<Number>) -> Unit = {},
+  ) {
+    // insert 1To1 Models
+    // NONE
+    // insertShallow SimpleSubentityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSubentityTable.insert {
+      FillerSimpleSubentityTable.withoutModelsFillShallowLambda(source).invoke(this, it)
+      // outgoing FK uuid refs
+      it[SimpleSubentityTable.simpleEntitySubentitysUuid] = subentitysSimpleEntity.uuid
+      customStatements.invoke(this, it)
+    }
+    // insert ManyTo1 Instances
+    // NONE
+  }
+
+  public fun withoutModelsBatchInsertDb(
+    sources: Collection<SimpleSubentityDto>,
+    subentitysUuidToParentUuid: Map<UUID, UUID>,
+    customStatements: BatchInsertStatement.(SimpleSubentityDto) -> Unit = {},
+  ) {
+    // insert 1To1 Models
+    // NONE
+    // batchInsertShallow SimpleSubentityTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSubentityTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
+      FillerSimpleSubentityTable.withoutModelsBatchFillShallowLambda().invoke(this, it)
+      // outgoing FK uuid refs
+      this[SimpleSubentityTable.simpleEntitySubentitysUuid] = subentitysUuidToParentUuid[it.uuid]!!
+      customStatements(it)
+    }
+    // batchInsert ManyTo1 Instances
+    // NONE
+  }
 }

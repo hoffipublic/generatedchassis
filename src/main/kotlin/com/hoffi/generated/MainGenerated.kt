@@ -189,6 +189,84 @@ class MainGenerated {
             }
         }
 
+        println()
+        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        println("select by JOIN 'prefixed' query:")
+        selectedEntityDtos = transaction {
+            addLogger(StdOutSqlLogger)
+            CrudSimpleEntityTableREAD.somePrefixReadByJoin {
+                (SimpleEntityTable.prio lessEq 4)
+            }
+        }
+        //region fold empty-check
+        if (selectedEntityDtos.isEmpty()) {
+            println()
+            println("!!!!!!!!!! NOTHING SELECTED  !!!!!!!!!!")
+            println("!!!!!!!!!! NOTHING SELECTED  !!!!!!!!!!")
+            println("!!!!!!!!!! NOTHING SELECTED  !!!!!!!!!!")
+            println()
+        } else {
+            println("\nresultRowList.size = ${selectedEntityDtos.size}")
+        }
+        //endregion fold empty-check
+
+        // ========================================================
+        // ======    println selected Entitys                ======
+        // ========================================================
+        for ((i, dto) in selectedEntityDtos.withIndex()) {
+            println(String.format("%5d: %s", i+1, dto))
+            println(String.format("       %s", dto.someModelObject))
+            if (dto.subentitys!!.isNotEmpty()) println("       subentitys:")
+            if (dto.subentitys!!.isNotEmpty()) {
+                for ((ii, subdto) in dto.subentitys!!.withIndex()) {
+                    println(String.format("      %3d: %-10s -> %-18s (%s)", ii + 1, subdto.name, subdto.value, subdto.uuid))
+                }
+            } else {
+                println("      DOES NOT CONTAIN subentitys !!!")
+            }
+        }
+
+        println()
+        println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+        println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+        println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+        println("select by selects 'prefixed' query:")
+        selectedEntityDtos = transaction {
+            addLogger(StdOutSqlLogger)
+            CrudSimpleEntityTableREAD.somePrefixReadBySelect {
+                (SimpleEntityTable.prio lessEq 4)
+            }
+        }
+        //region fold empty-check
+        if (selectedEntityDtos.isEmpty()) {
+            println()
+            println("!!!!!!!!!! NOTHING SELECTED  !!!!!!!!!!")
+            println("!!!!!!!!!! NOTHING SELECTED  !!!!!!!!!!")
+            println("!!!!!!!!!! NOTHING SELECTED  !!!!!!!!!!")
+            println()
+        } else {
+            println("\nresultRowList.size = ${selectedEntityDtos.size}")
+        }
+        //endregion fold empty-check
+
+        // ========================================================
+        // ======    println selected Entitys                ======
+        // ========================================================
+        for ((i, dto) in selectedEntityDtos.withIndex()) {
+            println(String.format("%5d: %s", i+1, dto))
+            println(String.format("       %s", dto.someModelObject))
+            if (dto.subentitys!!.isNotEmpty()) println("       subentitys:")
+            if (dto.subentitys!!.isNotEmpty()) {
+                for ((ii, subdto) in dto.subentitys!!.withIndex()) {
+                    println(String.format("      %3d: %-10s -> %-18s (%s)", ii + 1, subdto.name, subdto.value, subdto.uuid))
+                }
+            } else {
+                println("      DOES NOT CONTAIN subentitys !!!")
+            }
+        }
+
     } // ---------------------------- main ----------------------------
 
     // utility functions

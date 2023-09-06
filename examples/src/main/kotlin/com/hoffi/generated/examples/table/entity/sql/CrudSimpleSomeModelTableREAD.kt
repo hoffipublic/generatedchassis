@@ -62,6 +62,29 @@ public object CrudSimpleSomeModelTableREAD : WasGenerated {
     return selectedSimpleSomeModelDto
   }
 
+  private fun somePrefixUnmarshallSimpleSomeModelDtos(resultRowList: List<ResultRow>):
+      List<SimpleSomeModelDto> {
+    val readSimpleSomeModelDtos = mutableListOf<SimpleSomeModelDto>()
+    // base model NULL
+    var currentSimpleSomeModelDto: SimpleSomeModelDto = SimpleSomeModelDto.NULL
+    // many2One models NULL
+    // NONE
+    val iter = resultRowList.iterator()
+    while (iter.hasNext()) {
+      val rr: ResultRow = iter.next()
+      if (rr[SimpleSomeModelTable.uuid] != currentSimpleSomeModelDto.uuid) {
+        // base model
+        currentSimpleSomeModelDto = FillerSimpleSomeModelTable.somePrefixSimpleSomeModelDto(rr)
+        readSimpleSomeModelDtos.add(currentSimpleSomeModelDto)
+        // one2One models
+        // NONE
+      }
+      // many2One models
+      // NONE
+    }
+    return readSimpleSomeModelDtos
+  }
+
   context(Transaction)
   public fun somePrefixReadBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
       List<SimpleSomeModelDto> {
@@ -71,7 +94,50 @@ public object CrudSimpleSomeModelTableREAD : WasGenerated {
     val resultRowList: List<ResultRow> = query.toList()
     val selectedSimpleSomeModelDto = mutableListOf<SimpleSomeModelDto>()
     for (rr in resultRowList) {
-      val simpleSomeModelDto = FillerSimpleSomeModelTable.simpleSomeModelDto(rr)
+      val simpleSomeModelDto = FillerSimpleSomeModelTable.somePrefixSimpleSomeModelDto(rr)
+      // one2One models
+      // NONE
+      // many2One models
+      // NONE
+      // add
+      selectedSimpleSomeModelDto.add(simpleSomeModelDto)
+    }
+    return selectedSimpleSomeModelDto
+  }
+
+  private fun withoutModelsUnmarshallSimpleSomeModelDtos(resultRowList: List<ResultRow>):
+      List<SimpleSomeModelDto> {
+    val readSimpleSomeModelDtos = mutableListOf<SimpleSomeModelDto>()
+    // base model NULL
+    var currentSimpleSomeModelDto: SimpleSomeModelDto = SimpleSomeModelDto.NULL
+    // many2One models NULL
+    // NONE
+    val iter = resultRowList.iterator()
+    while (iter.hasNext()) {
+      val rr: ResultRow = iter.next()
+      if (rr[SimpleSomeModelTable.uuid] != currentSimpleSomeModelDto.uuid) {
+        // base model
+        currentSimpleSomeModelDto = FillerSimpleSomeModelTable.withoutModelsSimpleSomeModelDto(rr)
+        readSimpleSomeModelDtos.add(currentSimpleSomeModelDto)
+        // one2One models
+        // NONE
+      }
+      // many2One models
+      // NONE
+    }
+    return readSimpleSomeModelDtos
+  }
+
+  context(Transaction)
+  public fun withoutModelsReadBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
+      List<SimpleSomeModelDto> {
+    val query: Query =
+        com.hoffi.generated.examples.table.entity.SimpleSomeModelTable.select(selectLambda)
+    // execute query against DB
+    val resultRowList: List<ResultRow> = query.toList()
+    val selectedSimpleSomeModelDto = mutableListOf<SimpleSomeModelDto>()
+    for (rr in resultRowList) {
+      val simpleSomeModelDto = FillerSimpleSomeModelTable.withoutModelsSimpleSomeModelDto(rr)
       // one2One models
       // NONE
       // many2One models

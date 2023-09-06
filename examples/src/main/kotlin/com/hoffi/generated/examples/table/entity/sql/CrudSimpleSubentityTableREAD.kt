@@ -19,8 +19,31 @@ import org.jetbrains.exposed.sql.select
  * generated at DEVTIME on macbook-pro.fritz.box
  */
 public object CrudSimpleSubentityTableREAD : WasGenerated {
+  private fun subentityUnmarshallSimpleSubentityDtos(resultRowList: List<ResultRow>):
+      List<SimpleSubentityDto> {
+    val readSimpleSubentityDtos = mutableListOf<SimpleSubentityDto>()
+    // base model NULL
+    var currentSimpleSubentityDto: SimpleSubentityDto = SimpleSubentityDto.NULL
+    // many2One models NULL
+    // NONE
+    val iter = resultRowList.iterator()
+    while (iter.hasNext()) {
+      val rr: ResultRow = iter.next()
+      if (rr[SimpleSubentityTable.uuid] != currentSimpleSubentityDto.uuid) {
+        // base model
+        currentSimpleSubentityDto = FillerSimpleSubentityTable.subentitySimpleSubentityDto(rr)
+        readSimpleSubentityDtos.add(currentSimpleSubentityDto)
+        // one2One models
+        // NONE
+      }
+      // many2One models
+      // NONE
+    }
+    return readSimpleSubentityDtos
+  }
+
   context(Transaction)
-  public fun readBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
+  public fun subentityReadBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
       List<SimpleSubentityDto> {
     val query: Query =
         com.hoffi.generated.examples.table.entity.SimpleSubentityTable.select(selectLambda)
@@ -28,7 +51,7 @@ public object CrudSimpleSubentityTableREAD : WasGenerated {
     val resultRowList: List<ResultRow> = query.toList()
     val selectedSimpleSubentityDto = mutableListOf<SimpleSubentityDto>()
     for (rr in resultRowList) {
-      val simpleSubentityDto = FillerSimpleSubentityTable.simpleSubentityDto(rr)
+      val simpleSubentityDto = FillerSimpleSubentityTable.subentitySimpleSubentityDto(rr)
       // one2One models
       // NONE
       // many2One models
@@ -39,7 +62,7 @@ public object CrudSimpleSubentityTableREAD : WasGenerated {
     return selectedSimpleSubentityDto
   }
 
-  private fun subentityUnmarshallSimpleSubentityDtos(resultRowList: List<ResultRow>):
+  private fun unmarshallSimpleSubentityDtos(resultRowList: List<ResultRow>):
       List<SimpleSubentityDto> {
     val readSimpleSubentityDtos = mutableListOf<SimpleSubentityDto>()
     // base model NULL
@@ -63,7 +86,7 @@ public object CrudSimpleSubentityTableREAD : WasGenerated {
   }
 
   context(Transaction)
-  public fun subentityReadBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
+  public fun readBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
       List<SimpleSubentityDto> {
     val query: Query =
         com.hoffi.generated.examples.table.entity.SimpleSubentityTable.select(selectLambda)
@@ -82,6 +105,29 @@ public object CrudSimpleSubentityTableREAD : WasGenerated {
     return selectedSimpleSubentityDto
   }
 
+  private fun somePrefixUnmarshallSimpleSubentityDtos(resultRowList: List<ResultRow>):
+      List<SimpleSubentityDto> {
+    val readSimpleSubentityDtos = mutableListOf<SimpleSubentityDto>()
+    // base model NULL
+    var currentSimpleSubentityDto: SimpleSubentityDto = SimpleSubentityDto.NULL
+    // many2One models NULL
+    // NONE
+    val iter = resultRowList.iterator()
+    while (iter.hasNext()) {
+      val rr: ResultRow = iter.next()
+      if (rr[SimpleSubentityTable.uuid] != currentSimpleSubentityDto.uuid) {
+        // base model
+        currentSimpleSubentityDto = FillerSimpleSubentityTable.somePrefixSimpleSubentityDto(rr)
+        readSimpleSubentityDtos.add(currentSimpleSubentityDto)
+        // one2One models
+        // NONE
+      }
+      // many2One models
+      // NONE
+    }
+    return readSimpleSubentityDtos
+  }
+
   context(Transaction)
   public fun somePrefixReadBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
       List<SimpleSubentityDto> {
@@ -91,7 +137,50 @@ public object CrudSimpleSubentityTableREAD : WasGenerated {
     val resultRowList: List<ResultRow> = query.toList()
     val selectedSimpleSubentityDto = mutableListOf<SimpleSubentityDto>()
     for (rr in resultRowList) {
-      val simpleSubentityDto = FillerSimpleSubentityTable.simpleSubentityDto(rr)
+      val simpleSubentityDto = FillerSimpleSubentityTable.somePrefixSimpleSubentityDto(rr)
+      // one2One models
+      // NONE
+      // many2One models
+      // NONE
+      // add
+      selectedSimpleSubentityDto.add(simpleSubentityDto)
+    }
+    return selectedSimpleSubentityDto
+  }
+
+  private fun withoutModelsUnmarshallSimpleSubentityDtos(resultRowList: List<ResultRow>):
+      List<SimpleSubentityDto> {
+    val readSimpleSubentityDtos = mutableListOf<SimpleSubentityDto>()
+    // base model NULL
+    var currentSimpleSubentityDto: SimpleSubentityDto = SimpleSubentityDto.NULL
+    // many2One models NULL
+    // NONE
+    val iter = resultRowList.iterator()
+    while (iter.hasNext()) {
+      val rr: ResultRow = iter.next()
+      if (rr[SimpleSubentityTable.uuid] != currentSimpleSubentityDto.uuid) {
+        // base model
+        currentSimpleSubentityDto = FillerSimpleSubentityTable.withoutModelsSimpleSubentityDto(rr)
+        readSimpleSubentityDtos.add(currentSimpleSubentityDto)
+        // one2One models
+        // NONE
+      }
+      // many2One models
+      // NONE
+    }
+    return readSimpleSubentityDtos
+  }
+
+  context(Transaction)
+  public fun withoutModelsReadBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
+      List<SimpleSubentityDto> {
+    val query: Query =
+        com.hoffi.generated.examples.table.entity.SimpleSubentityTable.select(selectLambda)
+    // execute query against DB
+    val resultRowList: List<ResultRow> = query.toList()
+    val selectedSimpleSubentityDto = mutableListOf<SimpleSubentityDto>()
+    for (rr in resultRowList) {
+      val simpleSubentityDto = FillerSimpleSubentityTable.withoutModelsSimpleSubentityDto(rr)
       // one2One models
       // NONE
       // many2One models

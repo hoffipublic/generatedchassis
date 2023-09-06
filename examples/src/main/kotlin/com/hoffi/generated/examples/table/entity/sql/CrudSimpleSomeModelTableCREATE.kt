@@ -81,4 +81,36 @@ public object CrudSimpleSomeModelTableCREATE : WasGenerated {
     // batchInsert ManyTo1 Instances
     // NONE
   }
+
+  public fun withoutModelsInsertDb(source: SimpleSomeModelDto,
+      customStatements: SimpleSomeModelTable.(InsertStatement<Number>) -> Unit = {}) {
+    // NONE
+    // insert 1To1 Models
+    // NONE
+    // insertShallow SimpleSomeModelTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSomeModelTable.insert {
+      FillerSimpleSomeModelTable.withoutModelsFillShallowLambda(source).invoke(this, it)
+      // outgoing FK uuid refs
+      // NONE
+      customStatements.invoke(this, it)
+    }
+    // insert ManyTo1 Instances
+    // NONE
+  }
+
+  public fun withoutModelsBatchInsertDb(sources: Collection<SimpleSomeModelDto>,
+      customStatements: BatchInsertStatement.(SimpleSomeModelDto) -> Unit = {}) {
+    // NONE
+    // insert 1To1 Models
+    // NONE
+    // batchInsertShallow SimpleSomeModelTable and add outgoing ManyTo1-backrefUuids and 1To1-forwardRefUuids
+    SimpleSomeModelTable.batchInsert(sources, shouldReturnGeneratedValues = false) {
+      FillerSimpleSomeModelTable.withoutModelsBatchFillShallowLambda().invoke(this, it)
+      // outgoing FK uuid refs
+      // NONE
+      customStatements(it)
+    }
+    // batchInsert ManyTo1 Instances
+    // NONE
+  }
 }
