@@ -24,8 +24,8 @@ public object FillerSimpleEntityTable : WasGenerated {
     target.prio = resultRow[SimpleEntityTable.prio]
     target.aInstant = resultRow[SimpleEntityTable.aInstant]
     target.aLocalDateTime = resultRow[SimpleEntityTable.aLocalDateTime]
-    target.someModelObject = FillerSimpleSomeModelTable.simpleSomeModelDto(resultRow)
-    // not yet implemented subentitys SET of SimpleSubentityDto
+    // target.someModelObject dealt with in sql.CRUD...
+    // target.subentitys SET of SimpleSubentityDto dealt with in sql.CRUD...
     // not yet implemented listOfStrings LIST of String
     target.dtoSpecificProp = resultRow[SimpleEntityTable.dtoSpecificProp]
     target.optimisticLockId = resultRow[SimpleEntityTable.optimisticLockId]
@@ -89,11 +89,11 @@ public object FillerSimpleEntityTable : WasGenerated {
     target.value = resultRow[SimpleEntityTable.value]
     target.prio = resultRow[SimpleEntityTable.prio]
     target.aInstant = resultRow[SimpleEntityTable.aInstant]
-    target.aLocalDateTime = resultRow[SimpleEntityTable.aLocalDateTime]
-    target.someModelObject = FillerSimpleSomeModelTable.simpleSomeModelDto(resultRow)
-    // not yet implemented subentitys SET of SimpleSubentityDto
+    // copyBoundry IGNORE propName aLocalDateTime
+    // target.someModelObject dealt with in sql.CRUD...
+    // target.subentitys SET of SimpleSubentityDto dealt with in sql.CRUD...
     // not yet implemented listOfStrings LIST of String
-    target.dtoSpecificProp = resultRow[SimpleEntityTable.dtoSpecificProp]
+    // copyBoundry IGNORE propName dtoSpecificProp
     target.optimisticLockId = resultRow[SimpleEntityTable.optimisticLockId]
     target.uuid = resultRow[SimpleEntityTable.uuid]
     target.createdAt = resultRow[SimpleEntityTable.createdAt]
@@ -109,8 +109,8 @@ public object FillerSimpleEntityTable : WasGenerated {
     it[SimpleEntityTable.value] = source.value
     it[SimpleEntityTable.prio] = source.prio
     it[SimpleEntityTable.aInstant] = source.aInstant
-    it[SimpleEntityTable.aLocalDateTime] = source.aLocalDateTime
-    it[SimpleEntityTable.dtoSpecificProp] = source.dtoSpecificProp
+    // copyBoundry IGNORE propName aLocalDateTime
+    // copyBoundry IGNORE propName dtoSpecificProp
     it[SimpleEntityTable.optimisticLockId] = source.optimisticLockId
     it[SimpleEntityTable.uuid] = source.uuid
     it[SimpleEntityTable.createdAt] = source.createdAt
@@ -125,8 +125,8 @@ public object FillerSimpleEntityTable : WasGenerated {
     this[SimpleEntityTable.value] = it.value
     this[SimpleEntityTable.prio] = it.prio
     this[SimpleEntityTable.aInstant] = it.aInstant
-    this[SimpleEntityTable.aLocalDateTime] = it.aLocalDateTime
-    this[SimpleEntityTable.dtoSpecificProp] = it.dtoSpecificProp
+    // copyBoundry IGNORE propName aLocalDateTime
+    // copyBoundry IGNORE propName dtoSpecificProp
     this[SimpleEntityTable.optimisticLockId] = it.optimisticLockId
     this[SimpleEntityTable.uuid] = it.uuid
     this[SimpleEntityTable.createdAt] = it.createdAt
@@ -142,8 +142,8 @@ public object FillerSimpleEntityTable : WasGenerated {
     target.prio = resultRow[SimpleEntityTable.prio]
     target.aInstant = resultRow[SimpleEntityTable.aInstant]
     target.aLocalDateTime = resultRow[SimpleEntityTable.aLocalDateTime]
-    target.someModelObject = FillerSimpleSomeModelTable.simpleSomeModelDto(resultRow)
-    // not yet implemented subentitys SET of SimpleSubentityDto
+    // target.someModelObject dealt with in sql.CRUD...
+    // target.subentitys SET of SimpleSubentityDto dealt with in sql.CRUD...
     // not yet implemented listOfStrings LIST of String
     target.dtoSpecificProp = resultRow[SimpleEntityTable.dtoSpecificProp]
     target.optimisticLockId = resultRow[SimpleEntityTable.optimisticLockId]

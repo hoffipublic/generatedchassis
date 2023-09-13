@@ -66,8 +66,8 @@ public object FillerSimpleEntityDto : WasGenerated {
     if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
     copyShallowIgnoreModelsInto(target, source)
     target.someModelObject = source.someModelObject
-    // target.subentitys.clear()
-    // target.subentitys.addAll(source.subentitys.toList())
+    target.subentitys?.clear()
+    target.subentitys?.addAll(source.subentitys?.toList() ?: emptyList())
     // target.listOfStrings.clear()
     // target.listOfStrings.addAll(source.listOfStrings)
     return target
@@ -169,9 +169,8 @@ public object FillerSimpleEntityDto : WasGenerated {
       source: SimpleEntityDto): SimpleEntityDto {
     if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
     withoutModelsCopyShallowIgnoreModelsInto(target, source)
-    // beware of recursive calls, if Type or some submodel of it has a reference to this
-    target.someModelObject = SimpleSomeModelDto.createDeepWithNewEmptyModels()
-    target.subentitys?.clear()
+    // copyBoundry IGNORE propName someModelObject
+    // copyBoundry IGNORE propName subentitys
     // target.listOfStrings.clear()
     return target
   }
@@ -180,9 +179,8 @@ public object FillerSimpleEntityDto : WasGenerated {
       source: SimpleEntityDto): SimpleEntityDto {
     if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
     withoutModelsCopyShallowIgnoreModelsInto(target, source)
-    target.someModelObject = source.someModelObject
-    // target.subentitys.clear()
-    // target.subentitys.addAll(source.subentitys.toList())
+    // copyBoundry IGNORE propName someModelObject
+    // copyBoundry IGNORE propName subentitys
     // target.listOfStrings.clear()
     // target.listOfStrings.addAll(source.listOfStrings)
     return target
@@ -192,12 +190,8 @@ public object FillerSimpleEntityDto : WasGenerated {
       SimpleEntityDto {
     if (target === SimpleEntityDto.NULL) throw Exception("cannot clone/copy into companion.NULL")
     withoutModelsCopyShallowIgnoreModelsInto(target, source)
-    if (source.someModelObject === SimpleSomeModelDto.NULL)
-        target.someModelObject = source.someModelObject
-    else
-        FillerSimpleSomeModelDto.copyDeepInto(target.someModelObject, source.someModelObject)
-    target.subentitys?.clear()
-    target.subentitys?.addAll(source.subentitys?.toList() ?: emptyList())
+    // copyBoundry IGNORE propName someModelObject
+    // copyBoundry IGNORE propName subentitys
     // target.listOfStrings.clear()
     // target.listOfStrings.addAll(source.listOfStrings)
     return target

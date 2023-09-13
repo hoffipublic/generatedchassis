@@ -95,11 +95,37 @@ public object CrudSimpleEntityTableREAD : WasGenerated {
     return readSimpleEntityDtos
   }
 
+  context(Transaction)
+  public fun readBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
+      List<SimpleEntityDto> {
+    val query: Query =
+        com.hoffi.generated.examples.table.entity.SimpleEntityTable.select(selectLambda)
+    // execute query against DB
+    val resultRowList: List<ResultRow> = query.toList()
+    val selectedSimpleEntityDto = mutableListOf<SimpleEntityDto>()
+    for (rr in resultRowList) {
+      val simpleEntityDto = FillerSimpleEntityTable.simpleEntityDto(rr)
+      // one2One models
+      val someModelObject = CrudSimpleSomeModelTableREAD.readBySelect {
+        SimpleSomeModelTable.uuid eq rr[SimpleEntityTable.someModelObjectUuid]
+      }
+      .firstOrNull()
+      simpleEntityDto.someModelObject = someModelObject!!
+      // many2One models
+      val subentitys = CrudSimpleSubentityTableREAD.readBySelect {
+        SimpleSubentityTable.simpleEntitySubentitysUuid eq rr[SimpleEntityTable.uuid]
+      }
+      simpleEntityDto.subentitys?.addAll(subentitys)
+      // add
+      selectedSimpleEntityDto.add(simpleEntityDto)
+    }
+    return selectedSimpleEntityDto
+  }
+
   private fun somePrefixSimpleEntityTableJoin(): Join {
     val join: Join = SimpleEntityTable
     // one2One models
-    .join(SimpleSomeModelTable, JoinType.LEFT, SimpleEntityTable.someModelObjectUuid,
-        SimpleSomeModelTable.uuid)
+    // MODEL copyBoundry IGNORE propName someModelObject
     // one2One models
     .join(SimpleSubentityTable, JoinType.LEFT, SimpleEntityTable.uuid,
         SimpleSubentityTable.simpleEntitySubentitysUuid)
@@ -118,7 +144,7 @@ public object CrudSimpleEntityTableREAD : WasGenerated {
   context(Transaction)
   public fun somePrefixReadByJoin(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
       List<SimpleEntityDto> {
-    val resultRowList: List<ResultRow> = execToDb(selectLambda)
+    val resultRowList: List<ResultRow> = somePrefixExecToDb(selectLambda)
     // unmarshalling _within_ transaction scope
     val selectedSimpleEntityDto = somePrefixUnmarshallSimpleEntityDtos(resultRowList)
     return selectedSimpleEntityDto
@@ -148,17 +174,83 @@ public object CrudSimpleEntityTableREAD : WasGenerated {
       val rr: ResultRow = iter.next()
       if (rr[SimpleEntityTable.uuid] != currentSimpleEntityDto.uuid) {
         // base model
-        currentSimpleEntityDto = FillerSimpleEntityTable.simpleEntityDto(rr)
+        currentSimpleEntityDto = FillerSimpleEntityTable.somePrefixSimpleEntityDto(rr)
         readSimpleEntityDtos.add(currentSimpleEntityDto)
         // one2One models
-        currentSimpleEntityDto.someModelObject = FillerSimpleSomeModelTable.simpleSomeModelDto(rr)
+        // MODEL copyBoundry IGNORE propName someModelObject
       }
       // many2One models
       if (rr[SimpleSubentityTable.uuid] != currentsubentitys.uuid) {
-        currentsubentitys = FillerSimpleSubentityTable.simpleSubentityDto(rr)
+        currentsubentitys = FillerSimpleSubentityTable.somePrefixSimpleSubentityDto(rr)
         currentSimpleEntityDto.subentitys?.add(currentsubentitys)
       }
     }
     return readSimpleEntityDtos
+  }
+
+  context(Transaction)
+  public fun somePrefixReadBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
+      List<SimpleEntityDto> {
+    val query: Query =
+        com.hoffi.generated.examples.table.entity.SimpleEntityTable.select(selectLambda)
+    // execute query against DB
+    val resultRowList: List<ResultRow> = query.toList()
+    val selectedSimpleEntityDto = mutableListOf<SimpleEntityDto>()
+    for (rr in resultRowList) {
+      val simpleEntityDto = FillerSimpleEntityTable.somePrefixSimpleEntityDto(rr)
+      // one2One models
+      // MODEL copyBoundry IGNORE propName someModelObject
+      // many2One models
+      val subentitys = CrudSimpleSubentityTableREAD.somePrefixReadBySelect {
+        SimpleSubentityTable.simpleEntitySubentitysUuid eq rr[SimpleEntityTable.uuid]
+      }
+      simpleEntityDto.subentitys?.addAll(subentitys)
+      // add
+      selectedSimpleEntityDto.add(simpleEntityDto)
+    }
+    return selectedSimpleEntityDto
+  }
+
+  private fun withoutModelsUnmarshallSimpleEntityDtos(resultRowList: List<ResultRow>):
+      List<SimpleEntityDto> {
+    val readSimpleEntityDtos = mutableListOf<SimpleEntityDto>()
+    // base model NULL
+    var currentSimpleEntityDto: SimpleEntityDto = SimpleEntityDto.NULL
+    // many2One models NULL
+    // MODEL copyBoundry IGNORE propName subentitys
+    val iter = resultRowList.iterator()
+    while (iter.hasNext()) {
+      val rr: ResultRow = iter.next()
+      if (rr[SimpleEntityTable.uuid] != currentSimpleEntityDto.uuid) {
+        // base model
+        currentSimpleEntityDto = FillerSimpleEntityTable.withoutModelsSimpleEntityDto(rr)
+        readSimpleEntityDtos.add(currentSimpleEntityDto)
+        // one2One models
+        // MODEL copyBoundry IGNORE propName someModelObject
+      }
+      // many2One models
+      // MODEL copyBoundry IGNORE propName subentitys
+    }
+    return readSimpleEntityDtos
+  }
+
+  context(Transaction)
+  public fun withoutModelsReadBySelect(selectLambda: SqlExpressionBuilder.() -> Op<Boolean>):
+      List<SimpleEntityDto> {
+    val query: Query =
+        com.hoffi.generated.examples.table.entity.SimpleEntityTable.select(selectLambda)
+    // execute query against DB
+    val resultRowList: List<ResultRow> = query.toList()
+    val selectedSimpleEntityDto = mutableListOf<SimpleEntityDto>()
+    for (rr in resultRowList) {
+      val simpleEntityDto = FillerSimpleEntityTable.withoutModelsSimpleEntityDto(rr)
+      // one2One models
+      // MODEL copyBoundry IGNORE propName someModelObject
+      // many2One models
+      // MODEL copyBoundry IGNORE propName subentitys
+      // add
+      selectedSimpleEntityDto.add(simpleEntityDto)
+    }
+    return selectedSimpleEntityDto
   }
 }
